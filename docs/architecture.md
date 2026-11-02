@@ -14,9 +14,13 @@ Express 5の公式ドキュメントを参照する。
 
 ## 現在の構成
 
+Reactクライアントは `client/` に分離。API層・認証Context・共通部品・ページ単位の構成とし、詳細は [client.md](client.md) を参照する。
+ReactのFont Awesomeは `client/src/components/ui/Icon.jsx` に集約する。サーバーEJSのWebフォント配信とは独立したSVGコンポーネント方式。
+
 - `src/server.js`: dotenvによる設定読み込みとポート待ち受け。
 - `src/config/database.js`: MONGO_URIを受け取り、Mongooseで接続。server.jsで接続完了後にHTTPを起動する。
 - `src/config/auth.js`: JWT秘密鍵の検証とCookie設定。
+- `src/config/cors.js`: CLIENT_ORIGINSの許可リスト、Cookie付きCORS、プリフライト。JSONパーサーより前に登録。
 - `src/routes/auth.js`: 認証APIとHTTP応答。
 - `src/routes/home.js`: ホームページ用データとEJS描画。
 - `src/views/home.ejs`: APIホームページのテンプレート。

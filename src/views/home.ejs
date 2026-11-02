@@ -44,7 +44,7 @@
     </section>
 
     <section id="endpoints" class="section wrap">
-      <div class="section-top"><div><p class="eyebrow">02 / ENDPOINTS</p><h2>できること、一覧。</h2></div><p>6つのエンドポイントで、<br>基本の通信から認証まで。</p></div>
+      <div class="section-top"><div><p class="eyebrow">02 / ENDPOINTS</p><h2>できること、一覧。</h2></div><p><%= endpoints.length %>つのエンドポイントで、<br>基本の通信から認証まで。</p></div>
       <div class="table-scroll"><table><thead><tr><th scope="col">METHOD</th><th scope="col">ENDPOINT</th><th scope="col">DESCRIPTION</th><th scope="col">ACCESS</th></tr></thead><tbody>
       <% endpoints.forEach(endpoint => { %>
         <tr><td><span class="method <%= endpoint.method.toLowerCase() %>"><%= endpoint.method %></span></td><td><code><%= endpoint.path %></code></td><td><%= endpoint.description %></td><td><span class="access"><i class="fa-solid <%= endpoint.auth ? 'fa-lock' : 'fa-globe' %>" aria-hidden="true"></i> <%= endpoint.auth ? '認証が必要' : '公開' %></span></td></tr>

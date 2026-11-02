@@ -15,6 +15,8 @@ app.use(morgan((tokens, req, res) => [
   `${tokens['response-time'](req, res)} ms`,
 ].join(' ')));
 
+app.use(require('./config/cors').createCorsMiddleware());
+
 app.use(express.json({
   verify: (req, res, buffer) => {
     req.hasJsonBody = buffer.length > 0;
@@ -44,6 +46,9 @@ app.post('/echo', (req, res) => {
 });
 
 app.use((err, req, res, next) => {
+  if (err.code === 'CORS_ORIGIN_DENIED') {
+    return res.status(403).json({ error: 'Origin is not allowed' });
+  }
   if (err.type === 'entity.parse.failed') {
     return res.status(400).json({ error: 'Invalid JSON body' });
   }

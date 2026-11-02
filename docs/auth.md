@@ -12,11 +12,13 @@
 - A6: POST /auth/logoutは認証必須。Cookie削除とtokenVersion更新で当該ユーザーの全ログインを失効し204。
 - A7: 公開ユーザー情報はid、name、emailのみ。パスワード・ハッシュ・JWTを本文やログに含めない。
 - A8: CookieはHttpOnly、SameSite=Strict、Path=/auth。本番NODE_ENV=productionではSecure。JWT_SECRETは32バイト以上必須、既定値なし。
-- A9: POSTはapplication/jsonとX-Requested-With: XMLHttpRequest必須（415/403）。クロスオリジンCORSは許可しない。
+- A9: POSTはapplication/jsonとX-Requested-With: XMLHttpRequest必須（415/403）。CLIENT_ORIGINSで指定したクライアントのCORS・Cookie付き通信のみ許可する。未知のOriginは403。
 - A10: 登録・ログインをIPごとに15分30回までに制限。超過は429。単一プロセス内の制限で、再起動でリセット。
 - A11: 不正入力は400。内部エラーは詳細を含まない500 JSON。認証レスポンスはCache-Control: no-store。
 
 ## ローカル設定
+
+`GET /auth/password-policy` は認証不要で `{ "minLength": 4, "maxBytes": 72 }` の形式で現在の登録条件を返す。minLengthは環境変数に追従し、Reactのsignupページもこの値を参照する。レスポンスはno-store。
 
 開発用の最小文字数を `.env` で設定する。
 
@@ -49,5 +51,5 @@ Invoke-RestMethod "$base/me" -WebSession $authSession
 Invoke-RestMethod "$base/logout" -Method Post -Headers $headers -ContentType 'application/json' -Body '{}' -WebSession $authSession
 ```
 
-本番はHTTPSを使用する。Cookie認証APIは同一オリジンの画面から利用する。
+本番はHTTPSを使用する。開発中はlocalhost:5173の画面からlocalhost:3000へCookie認証で接続できる。localhostと127.0.0.1を混在させず、同じホスト名を使う。別サイトへのCookie送信はSameSite=Strictで許可しない。
 現在はメール確認、パスワード再設定、MFA、分散レート制限を対象外とする。

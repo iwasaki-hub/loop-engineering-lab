@@ -1,5 +1,13 @@
 # loop-engineering-lab
 
+## Reactホームページ
+
+AIを使った開発を紹介するReactページを `client/` に追加。
+Expressを起動後、別ターミナルで `cd client` → `npm.cmd run dev` を実行し http://localhost:5173/ を開く。
+AxiosのAPI層・認証Context・React Routerを分離。構成と検証方法は [docs/client.md](docs/client.md) を参照。
+既存のEJSページは3000ポートに維持。
+クライアントからAPIへ直接接続するCORS設定も追加。ルートの `CLIENT_ORIGINS` とclientの `VITE_API_BASE_URL` を変更したら両サーバーを再起動する。Cookie認証ではlocalhost同士で利用する。
+
 Windows、Node.js、Codexで設計→実装→テスト→修正を練習するプロジェクト。
 
 ## APIホームページ

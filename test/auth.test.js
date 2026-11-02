@@ -38,6 +38,9 @@ test('認証API: 登録・ログイン・本人取得・失効・異常系', { t
   }
   const credentials = { name: ' テストユーザー ', email: ' Test@Example.com ', password: 'correct-password-123' };
   try {
+    const policy = await request('/password-policy');
+    assert.equal(policy.status, 200);
+    assert.deepEqual(await policy.json(), { minLength: 4, maxBytes: 72 });
     let response = await request('/register', { method: 'POST', body: credentials });
     assert.equal(response.status, 201);
     const registered = await response.json();

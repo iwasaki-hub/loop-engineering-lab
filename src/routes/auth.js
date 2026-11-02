@@ -3,7 +3,7 @@ const auth = require('../services/auth');
 const users = require('../repositories/users');
 const requireAuth = require('../middleware/auth');
 const rateLimit = require('../middleware/authRateLimit');
-const { cookieOptions } = require('../config/auth');
+const { cookieOptions, getPasswordPolicy } = require('../config/auth');
 const router = express.Router();
 
 router.use((req, res, next) => {
@@ -15,6 +15,10 @@ router.use((req, res, next) => {
     if (!req.is('application/json')) return res.status(415).json({ error: 'Content-Type must be application/json' });
   }
   next();
+});
+
+router.get('/password-policy', (req, res) => {
+  res.json(getPasswordPolicy());
 });
 
 router.post('/register', rateLimit, async (req, res) => {

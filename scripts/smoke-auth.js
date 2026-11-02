@@ -8,6 +8,7 @@ const { once } = require('node:events');
 const dbName = `loop_auth_test_${crypto.randomBytes(12).toString('hex')}`;
 process.env.JWT_SECRET = crypto.randomBytes(32).toString('hex');
 process.env.NODE_ENV = 'test';
+process.env.CLIENT_ORIGINS = 'http://localhost:5173';
 let server;
 
 async function run() {
@@ -22,7 +23,7 @@ async function run() {
   async function post(route, body, cookie) {
     return fetch(base + route, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest', ...(cookie ? { Cookie: cookie } : {}) },
+      headers: { Origin: 'http://localhost:5173', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest', ...(cookie ? { Cookie: cookie } : {}) },
       body: JSON.stringify(body), signal: AbortSignal.timeout(5000),
     });
   }
@@ -33,6 +34,8 @@ async function run() {
   assert.notEqual(stored.passwordHash, credentials.password);
   let response = await post('/login', credentials);
   assert.equal(response.status, 200);
+  assert.equal(response.headers.get('access-control-allow-origin'), 'http://localhost:5173');
+  assert.equal(response.headers.get('access-control-allow-credentials'), 'true');
   const cookie = response.headers.get('set-cookie').split(';')[0];
   response = await fetch(base + '/me', { headers: { Cookie: cookie }, signal: AbortSignal.timeout(5000) });
   assert.equal(response.status, 200);

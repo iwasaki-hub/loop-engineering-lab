@@ -173,6 +173,71 @@
 - `npm.cmd run check` 成功、`npm.cmd test` 13件成功。
 - 公開対象ファイルを資格情報パターンと実環境の秘密値で検査し、該当なしを確認。
 
+## 2026-11-03 Vite Reactクライアント
+
+- ユーザー導入済みのVite・React・Axios・React Routerを利用し、client配下にホームページを実装。C1〜C6はdocs/client.mdに記録。
+- OpenAI Codexページを参考に、タイポグラフィ・余白・ワークスペースプレビューを中心とした独自のAI開発紹介ページに変更。
+- api、context、hooks、components、pagesへ分割。登録/ログイン用のAPI関数は用意し、フォーム画面は対象外。
+- AuthProviderが/auth/meでCookieから復元。401は未認証、接続失敗はエラーとして扱う。秘密トークンはクライアントに保存しない。
+- Viteで/auth・/health・/echoをプロキシし、Cookie Path=/authを維持。
+- `client: npm run build`、`npm test`（API契約1件）、`npm run test:render`（ホーム・ユーザー状態・エラー・404描画）が成功。
+- `npm run check` とルート `npm test`（既存13件＋クライアントAPI1件、合計14件）が成功。
+- Axios→Vite→既存Expressで/healthのokと/auth/meの401を確認。
+- 初回のプロキシ確認はAPI起動前で502。既存サーバーの稼働後は正常。試行したnpm startはポート使用中のため終了し、既存サーバーは停止していない。
+- ブラウザー接続ホストが利用不可のため、視覚確認・実ブラウザーでの操作検証は未実施。
+- 新規依存追加なし。可読性のためPrettierを一時実行して整形（依存への追加なし）。コミット・push・デプロイは未実施。
+
+## 2026-11-03 CORS対応
+
+- インストール済みcorsを利用し、src/config/cors.jsへ許可リスト・設定の検証を分離。
+- CLIENT_ORIGINSで指定するViteクライアントのみCookie付きCORSを許可。未許可OriginはAPI処理前に403。Originなしと同一オリジンは維持。
+- localhost/127.0.0.1の5173を開発用既定値とし、ルート.env・.env.exampleに未設定の場合のみ追記。
+- AxiosがVITE_API_BASE_URLを参照し、client/.env.localに未設定の場合のみlocalhost:3000を追記。空欄・未指定時は従来のプロキシ。
+- 変更前のCORSヘッダー不足による失敗を確認し実装。
+- `npm.cmd run check` 成功、`npm.cmd test` 16件成功（許可/拒否、OPTIONS、Cookie用ヘッダー、401応答のCORS、不正設定を含む）。
+- SameSite=Strictは維持。Cookie認証ではフロント/APIのホスト名を合わせる。
+- `npm.cmd run test:integration` 成功。実MongoDBの認証フローとログイン応答のCORS資格情報ヘッダーを確認。専用DB削除済み。
+- clientの本番ビルドとReact描画確認も成功。ブラウザーによるCookie送信確認は未実施。
+
+## 2026-11-03 Navbarとログインページ
+
+- C7追加。Navbarを共通部品として分離し、React Routerの/loginへ遷移するリンクを追加。
+- ログインフォームは既存のuseAuth.login→Axios→認証APIを利用。成功時はユーザー情報をContextで共有し、ホームへ戻る。
+- メール/パスワード、自動入力、表示切替、二重送信防止、APIエラー表示、画面離脱後の不要な遷移防止に対応。
+- ログイン済みの場合/loginはホームへリダイレクト。既存パスワードを使えるよう新規登録の最小文字数を強制しない。
+- 先に描画確認へNavbarリンク・ログイン入力欄のチェックを追加して失敗を確認後、実装。
+- クライアントビルド成功、`npm.cmd run check` 成功、ルート `npm.cmd test` 16件成功、`client: npm run test:render` 成功。
+- 描画確認では遷移先ページ・フォームと既存ページを検証。実ブラウザーでのフォーム送信・視覚確認は未実施。
+
+## 2026-11-03 Signupページ
+
+- C8追加。/signupに名前（任意）・メール・パスワード・確認用の登録フォームを追加。Navbarと/loginから相互遷移できる。
+- 先に描画確認へsignupリンク・入力欄のチェックを追加し、未実装の失敗を確認。
+- GET /auth/password-policyで環境変数の最小文字数と最大バイト数を公開。Reactは説明・入力チェックにこの設定を使用。取得失敗時は再取得可能で、条件未取得の登録は抑止。
+- 確認不一致・Unicode文字数・UTF-8上限・重複メール・二重送信に対応。
+- 既存のuseAuth.registerとAxiosを利用し、自動ログインせず成功メッセージとメールだけを/loginへ渡す。
+- `npm.cmd run check`、ルート `npm.cmd test` 17件、React描画確認、clientビルドが成功。
+- サーバーの登録条件取得、ReactのAPI契約、条件変更・上限・確認入力、signup描画とログイン成功案内を検証。実ブラウザーによるフォーム送信・視覚確認は未実施。
+
+## 2026-11-03 ReactクライアントのFont Awesome
+
+- ユーザー依頼に基づき、clientに公式Reactコンポーネント・SVG core・無料Solidアイコンの3パッケージを追加しlockfileを更新。
+- 公式資料: https://docs.fontawesome.com/web/use-with/react/add-icons
+- 先に描画確認でFont Awesome SVGのdata-iconを検証し、未実装による失敗を確認。
+- 共通Iconの既存name/sizeインターフェースを維持して置換。使うアイコンを明示的にimportし、全アイコンの一括登録はしない。
+- ナビ・ログイン/登録・ログアウト・メール/鍵/名前・パスワード表示切替に適用。ホームの既存Icon利用箇所も置換。
+- CSSはViteで読み込み、実行時autoAddCssを無効化。aria-hiddenとラベルを維持。CDN/Kit不要。
+- React描画確認・client本番ビルド成功。ブラウザーでの視覚確認は未実施。
+- `npm.cmd run check` 成功、ルート `npm.cmd test` 17件成功。
+
+## 2026-11-03 作業終了時のGitHub保存準備
+
+- ユーザー依頼によりReactクライアント、CORS、ログイン・signup、Font Awesomeと関連ドキュメントをmainへ保存。
+- 最終確認: 構文チェック、通常テスト17件、client本番ビルド、React描画確認すべて成功。
+- 公開対象を資格情報パターンと実環境の秘密値で検査し、該当なし。
+- .env・client/.env.local・node_modules・dist・一時キャッシュはGit対象外。
+- リモートmainとの差分競合なしを確認してコミット・pushする。
+
 ## 記録テンプレート
 
 - 日時:
