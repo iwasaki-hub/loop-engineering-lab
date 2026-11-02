@@ -17,7 +17,10 @@ test('デザイン設定を保存・復元し、不明な値と保存禁止に�
   }
   assert.equal(readDesign(storage), 'forest')
   assert.equal(getNextDesign('forest'), 'sunrise')
-  assert.equal(getNextDesign('sunrise'), 'forest')
+  assert.equal(getNextDesign('sunrise'), 'prism')
+  assert.equal(getNextDesign('prism'), 'forest')
+  saveDesign(storage, 'prism')
+  assert.equal(readDesign(storage), 'prism')
   saveDesign(storage, 'sunrise')
   assert.equal(values.get(DESIGN_STORAGE_KEY), 'sunrise')
   assert.equal(readDesign(storage), 'sunrise')

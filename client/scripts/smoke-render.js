@@ -50,7 +50,23 @@ try {
   assert.ok(warmHome.includes('data-design="sunrise"'))
   assert.ok(warmHome.includes('サンライズ'))
   assert.ok(warmHome.includes('動くものへ。'))
-  assert.ok(warmHome.includes('aria-pressed="true"'))
+  assert.ok(warmHome.includes('デザイン：サンライズ。プリズムに切り替え'))
+  const prismHome = render('/', { user: null, status: 'anonymous' }, 'prism')
+  assert.ok(prismHome.includes('data-design="prism"'))
+  assert.ok(prismHome.includes('デザイン：プリズム。フォレストに切り替え'))
+  assert.ok(prismHome.includes('動くものへ。'))
+  for (const route of ['/login', '/signup', '/case-studies', '/dashboard']) {
+    const page = render(
+      route,
+      {
+        user: { name: 'プリズム確認ユーザー', email: 'prism@example.com' },
+        status: 'authenticated',
+      },
+      'prism',
+    )
+    assert.ok(page.includes('data-design="prism"'), route)
+    if (route === '/dashboard') assert.ok(page.includes('プリズム確認ユーザー'))
+  }
   const warmDashboard = render(
     '/dashboard',
     {
@@ -96,11 +112,21 @@ try {
     '失敗を確認',
     '空のJSON本文',
     'ブラウザー',
-    '17件',
+    '18件',
+    '使いやすさを育てる、工夫と改善。',
+    '入力を保ったまま、デザインを切り替える。',
+    '動きを減らす設定にも対応する。',
   ]) {
     assert.ok(caseStudy.includes(content), content)
   }
   assert.ok(!caseStudy.includes('ログインが必要です'))
+  assert.equal(
+    (caseStudy.match(/class="improvement-illustration"/g) || []).length,
+    4,
+  )
+  for (const image of ['design', 'navigation', 'motion', 'images']) {
+    assert.ok(caseStudy.includes(`improvement-${image}.webp`))
+  }
   assert.ok(
     home.includes('human-ai-workshop.webp'),
     'The home illustration is loaded locally',

@@ -9,6 +9,10 @@ export const designs = {
     label: 'サンライズ',
     description: '暖色と丸みのある、親しみやすいデザイン',
   },
+  prism: {
+    label: 'プリズム',
+    description: '白と濃紺に、鮮やかなグラデーションを重ねるデザイン',
+  },
 }
 
 export function normalizeDesign(value) {
@@ -16,7 +20,8 @@ export function normalizeDesign(value) {
 }
 
 export function getNextDesign(value) {
-  return normalizeDesign(value) === 'forest' ? 'sunrise' : 'forest'
+  const keys = Object.keys(designs)
+  return keys[(keys.indexOf(normalizeDesign(value)) + 1) % keys.length]
 }
 
 export function readDesign(storage) {

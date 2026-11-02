@@ -9,6 +9,7 @@ import {
   saveDesign,
 } from './designStore'
 import '../styles/designs.css'
+import '../styles/prism.css'
 
 function initialValue(initialDesign) {
   if (initialDesign !== undefined) return normalizeDesign(initialDesign)

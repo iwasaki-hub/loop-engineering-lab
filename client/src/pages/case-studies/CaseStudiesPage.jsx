@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import Icon from '../../components/ui/Icon'
 import DevelopmentFlow from './DevelopmentFlow'
-import { milestones, repo, verification } from './content'
+import { improvements, milestones, repo, verification } from './content'
 import './caseStudies.css'
 import { useAuth } from '../../hooks/useAuth'
 
@@ -169,6 +169,38 @@ export default function CaseStudiesPage() {
             </li>
           ))}
         </ol>
+      </section>
+
+      <section
+        id="improvements"
+        className="case-improvements container"
+        aria-labelledby="improvements-heading"
+      >
+        <p className="eyebrow">DESIGN DECISIONS</p>
+        <h2 id="improvements-heading">使いやすさを育てる、工夫と改善。</h2>
+        <div className="case-improvements-grid">
+          {improvements.map((item) => (
+            <article key={item.title}>
+              <img
+                className="improvement-illustration"
+                src={item.image}
+                alt={item.imageAlt}
+                width="900"
+                height="600"
+                loading="lazy"
+                decoding="async"
+              />
+              <div className="improvement-copy">
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <p className="milestone-result">
+                  <Icon name="check" size={13} />
+                  {item.result}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section id="learning" className="case-learning">

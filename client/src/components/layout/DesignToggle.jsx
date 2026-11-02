@@ -14,7 +14,6 @@ export default function DesignToggle({ onNavigate }) {
       whileTap={reduced ? undefined : { scale: 0.96 }}
       type="button"
       className="design-toggle"
-      aria-pressed={design === 'sunrise'}
       aria-label={`デザイン：${currentDesign.label}。${designs[nextDesign].label}に切り替え`}
       title={currentDesign.description}
       onClick={() => {

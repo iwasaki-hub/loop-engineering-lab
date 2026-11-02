@@ -1,0 +1,366 @@
+/* Stripeを参考にした独自テーマ。既存テーマへ影響しないよう範囲を限定。 */
+.swatch-prism {
+  background: linear-gradient(135deg, #00c8df, #635bff 55%, #fb86ca);
+}
+.design-root[data-design='prism'] {
+  --ink: #102b48;
+  --muted: #52647a;
+  --line: #dce5ef;
+  color: var(--ink);
+  background: #fff;
+}
+.design-root[data-design='prism'] ::selection {
+  background: #dedbff;
+  color: #24315d;
+}
+.design-root[data-design='prism'] :is(h1, h2, h3) {
+  color: #102b48;
+  font-weight: 700;
+}
+.design-root[data-design='prism'] .eyebrow {
+  color: #574bd6;
+  font-weight: 600;
+}
+.design-root[data-design='prism']
+  :is(.eyebrow-line, .live-dot, .nav-item.is-active::after) {
+  background: #635bff;
+}
+.design-root[data-design='prism'] .site-header {
+  background: rgb(255 255 255 / 94%);
+  border-color: #dce5ef;
+}
+.design-root[data-design='prism'] .wordmark > svg {
+  color: #635bff;
+}
+.design-root[data-design='prism'] .wordmark strong {
+  color: #102b48;
+}
+.design-root[data-design='prism'] :is(.wordmark-caption, .main-nav .nav-item) {
+  color: #52647a;
+}
+.design-root[data-design='prism']
+  :is(
+    .main-nav .nav-item.is-active,
+    .inline-link,
+    .auth-switch a,
+    .policy-retry
+  ) {
+  color: #5544cf;
+  border-color: #c9c4f9;
+}
+.design-root[data-design='prism'] :is(.button-dark, .auth-submit) {
+  background: #635bff;
+  border-color: #635bff;
+  color: #fff;
+  box-shadow: 0 5px 14px #635bff26;
+}
+.design-root[data-design='prism'] :is(.button-dark, .auth-submit):hover {
+  background: #493ed2;
+  border-color: #493ed2;
+}
+.design-root[data-design='prism'] .button {
+  border-radius: 99px;
+  font-weight: 600;
+}
+.design-root[data-design='prism'] .button-light {
+  background: #edf0ff;
+  color: #3f3b86;
+}
+.design-root[data-design='prism']
+  :is(.button-light:hover, .account-link:hover) {
+  background: #e3e5ff;
+  color: #3f3b86;
+}
+.design-root[data-design='prism']
+  :is(.small-button, .account-trigger, .design-toggle) {
+  color: #4f43ba;
+  background: #f0efff;
+  border-color: #d9d5fa;
+}
+.design-root[data-design='prism']
+  :is(.account-trigger.is-active, .account-link.is-active) {
+  color: #493bc2;
+  background: #e8e6ff;
+}
+.design-root[data-design='prism'] .account-links {
+  background: #fff;
+  border-color: #e2e7f1;
+  box-shadow: 0 18px 45px #102b481a;
+}
+.design-root[data-design='prism'] :is(a, button, summary, input):focus-visible {
+  outline-color: #635bff;
+}
+
+/* 静かなグラデーションと斜めの面。本文は常に通常の文書順で配置。 */
+.design-root[data-design='prism'] .hero-with-illustration {
+  position: relative;
+  isolation: isolate;
+  padding-block: 100px 85px;
+  gap: 48px;
+}
+.design-root[data-design='prism'] .hero-with-illustration::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0 -24px;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 95% 0%, #ffb4d9 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 10%, #a5a4ff 0%, transparent 60%),
+    linear-gradient(120deg, #fff 12%, #edfaff 45%, #9be9f0);
+  clip-path: polygon(0 0, 100% 0, 100% 78%, 0 100%);
+}
+.design-root[data-design='prism'] .home-hero h1 {
+  font-size: clamp(44px, 4.8vw, 70px);
+  letter-spacing: -2.8px;
+  line-height: 1.45;
+}
+.design-root[data-design='prism'] .home-hero h1 span {
+  color: #5544cf;
+}
+.design-root[data-design='prism']
+  :is(
+    .hero-description,
+    .hero-footnote,
+    .hero-illustration figcaption,
+    .illustration-eyebrow
+  ) {
+  color: #425872;
+}
+.design-root[data-design='prism'] .hero-illustration img {
+  border-radius: 18px;
+  border: 5px solid #ffffffc9;
+  box-shadow: 0 30px 60px -20px #25396c45;
+  mix-blend-mode: normal;
+}
+.design-root[data-design='prism'] .preview-scene {
+  border-radius: 18px;
+  background: linear-gradient(125deg, #d7f5fc, #dfd9ff 58%, #ffe1ed);
+}
+.design-root[data-design='prism'] .scene-orbit {
+  border-color: #635bff26;
+}
+.design-root[data-design='prism'] :is(.preview-topline, .scene-caption) {
+  color: #465478;
+}
+.design-root[data-design='prism'] .workspace {
+  border-color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 24px 55px #1930522b;
+}
+.design-root[data-design='prism'] :is(.workspace-titlebar, .workspace-sidebar) {
+  background: #f5f8fc;
+  border-color: #e0e7f0;
+}
+.design-root[data-design='prism']
+  :is(.workflow-tabs button.selected, .agent-avatar) {
+  background: #e7e4ff;
+  color: #5544cf;
+}
+.design-root[data-design='prism'] .workflow-tabs button:hover {
+  background: #eeecff;
+}
+.design-root[data-design='prism'] .workspace-conversation {
+  background: #fff;
+  border-color: #dce5ef;
+}
+.design-root[data-design='prism'] .user-prompt {
+  background: #f0eeff;
+  color: #493d91;
+}
+.design-root[data-design='prism'] :is(.agent-name, .task-done) {
+  color: #41638e;
+}
+.design-root[data-design='prism']
+  :is(
+    .agent-answer,
+    .panel-caption,
+    .workspace-project,
+    .sidebar-bottom,
+    .preview-input,
+    .stack-line > div,
+    .stack-caption,
+    .stack-line > span
+  ) {
+  color: #52647a;
+}
+.design-root[data-design='prism'] .workspace-code {
+  background: #102b48;
+}
+.design-root[data-design='prism'] .file-tab {
+  background: #1c3a5d;
+  color: #d6e3ff;
+  border-color: #395270;
+}
+.design-root[data-design='prism'] .code-line:not(.blank-line) {
+  background: #ffffff08;
+}
+.design-root[data-design='prism'] .code-line code {
+  color: #c9e7ff;
+}
+.design-root[data-design='prism'] .code-footer {
+  color: #b7cee8;
+  border-color: #395270;
+}
+.design-root[data-design='prism']
+  :is(
+    .approach-copy,
+    .approach-copy > p:first-child,
+    .guide-section .section-intro > p:not(.eyebrow)
+  ) {
+  color: #52647a;
+}
+.design-root[data-design='prism'] .approach-copy strong {
+  color: #5544cf;
+}
+.design-root[data-design='prism'] .workflow-section {
+  background: #f5f8fc;
+}
+.design-root[data-design='prism'] .workflow-card {
+  border-radius: 14px;
+  border: 1px solid #e4e9f3;
+  box-shadow: 0 12px 32px #102b480d;
+}
+.design-root[data-design='prism'] .card-plan {
+  background: #fff;
+}
+.design-root[data-design='prism'] .card-build {
+  background: #eeecff;
+}
+.design-root[data-design='prism'] .card-verify {
+  background: #e6f8fc;
+}
+.design-root[data-design='prism']
+  :is(
+    .card-description,
+    .card-label,
+    .card-top,
+    .card-top > span,
+    .section-heading > p,
+    .loop-caption,
+    .guide-steps p,
+    .guide-steps > article > span,
+    .server-status,
+    .faq-list details p
+  ) {
+  color: #52647a;
+}
+.design-root[data-design='prism'] .mini-code {
+  background: #102b48;
+  border-color: #26476c;
+}
+.design-root[data-design='prism'] .mini-code > span {
+  color: #a9c9ef;
+}
+.design-root[data-design='prism'] .guide-steps code {
+  background: #eeecff;
+  color: #5544cf;
+}
+.design-root[data-design='prism'] .faq-list details {
+  border-color: #dce5ef;
+}
+.design-root[data-design='prism'] .home-case-link {
+  background: #f5f8fc;
+  border: 1px solid #e0e7f0;
+  border-radius: 14px;
+  padding: 30px;
+}
+.design-root[data-design='prism'] .closing-section {
+  background: #102b48;
+  color: #fff;
+}
+.design-root[data-design='prism'] .closing-section h2 {
+  color: #fff;
+}
+.design-root[data-design='prism'] :is(.closing-section p, .closing-caption) {
+  color: #c5d5e8;
+}
+.design-root[data-design='prism'] .closing-section > div > svg {
+  color: #9fe5f1;
+}
+.design-root[data-design='prism'] :is(.site-footer, .site-footer p) {
+  color: #52647a;
+}
+
+/* 認証・マイページ・開発事例にも同じ配色を適用。 */
+.design-root[data-design='prism']
+  :is(.auth-story, .dashboard-next, .case-flow-section, .case-verification) {
+  background: #f0f4ff;
+}
+.design-root[data-design='prism']
+  :is(
+    .auth-story,
+    .dashboard-next,
+    .profile-card,
+    .case-terminal,
+    .case-flow li > a,
+    .verification-grid article
+  ) {
+  border-radius: 16px;
+  border-color: #dce5ef;
+  box-shadow: 0 12px 35px #102b480a;
+}
+.design-root[data-design='prism']
+  :is(
+    .dashboard-heading h1 span,
+    .dashboard-badge,
+    .auth-loop,
+    .case-study-page h1 > span,
+    .milestone-result,
+    .verification-grid strong,
+    .case-roles article > svg
+  ) {
+  color: #5544cf;
+}
+.design-root[data-design='prism'] :is(.dashboard-badge, .profile-avatar) {
+  background: #eeecff;
+  color: #5544cf;
+}
+.design-root[data-design='prism'] .form-field input {
+  border-color: #becbdf;
+  border-radius: 8px;
+  background: #fff;
+  color: #102b48;
+}
+.design-root[data-design='prism'] .case-learning {
+  background: #f5f8fc;
+}
+.design-root[data-design='prism']
+  :is(
+    .case-lead,
+    .case-roles p,
+    .home-case-link p,
+    .auth-story > p:not(.eyebrow)
+  ) {
+  color: #52647a;
+}
+.design-root[data-design='prism'] .improvement-illustration {
+  border-radius: 16px;
+  box-shadow: 0 20px 45px #102b4814;
+}
+@media (max-width: 1280px) {
+  .design-root[data-design='prism'] .main-nav {
+    background: #fff;
+  }
+  .design-root[data-design='prism'] .main-nav .nav-item.is-active {
+    background: #eeecff;
+    box-shadow: inset 3px 0 #635bff;
+  }
+}
+@media (max-width: 800px) {
+  .design-root[data-design='prism'] .hero-with-illustration {
+    padding-block: 50px;
+    gap: 32px;
+  }
+  .design-root[data-design='prism'] .hero-with-illustration::before {
+    inset-inline: -12px;
+    clip-path: polygon(0 0, 100% 0, 100% 91%, 0 100%);
+  }
+  .design-root[data-design='prism'] .home-hero h1 {
+    font-size: clamp(40px, 7vw, 58px);
+    letter-spacing: -1.8px;
+  }
+  .design-root[data-design='prism'] .home-case-link {
+    padding: 24px;
+  }
+}

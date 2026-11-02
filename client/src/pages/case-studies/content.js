@@ -1,3 +1,8 @@
+import designIllustration from '../../assets/illustrations/improvement-design.webp'
+import navigationIllustration from '../../assets/illustrations/improvement-navigation.webp'
+import motionIllustration from '../../assets/illustrations/improvement-motion.webp'
+import imagesIllustration from '../../assets/illustrations/improvement-images.webp'
+
 export const repo = 'https://github.com/iwasaki-hub/loop-engineering-lab'
 
 export const developmentLoop = [
@@ -98,6 +103,19 @@ export const milestones = [
   },
   {
     number: '07',
+    phase: 'DESIGN & MOTION',
+    title: '見た目と使い心地を、育てる。',
+    description:
+      '元のフォレストデザインを残し、Contextでサンライズへ切り替える仕組みを追加。文字サイズとナビゲーションを調整し、Motionでページ遷移や工程の切り替えに動きを加えました。OSの動きを減らす設定にも対応しています。',
+    files: [
+      'client/src/context/DesignProvider.jsx',
+      'client/src/styles/designs.css',
+      'client/src/components/motion/',
+    ],
+    result: '入力や認証状態を維持しながら、好みの見た目へ。',
+  },
+  {
+    number: '08',
     phase: 'REVIEW & RECORD',
     title: '結果を残して、次へ進む。',
     description:
@@ -111,18 +129,55 @@ export const milestones = [
   },
 ]
 
+export const improvements = [
+  {
+    title: '入力を保ったまま、デザインを切り替える。',
+    image: designIllustration,
+    imageAlt:
+      '同じフォームを保ちながら、緑とオレンジの画面を切り替える作り手たち',
+    description:
+      'デザイン設定を認証情報から分離し、Contextで共有。画面を再マウントせず、フォームの入力を維持します。CSSの適用範囲を分けて既存の配色を残し、選択はlocalStorageへ保存。保存できない環境でも表示を継続します。',
+    result: '見た目の変更が、進行中の操作を妨げない設計。',
+  },
+  {
+    title: '文字とナビゲーションを、読みやすく。',
+    image: navigationIllustration,
+    imageAlt: '見やすいナビゲーションと道しるべをたどる小さな探検家',
+    description:
+      '本文・補足・モバイル表示の文字サイズを拡大。現在のリンクを色と下線で示し、アカウント項目をドロップダウンに整理しました。Escapeキーで閉じてボタンへ戻り、モバイルメニューはスクロール時にも閉じます。',
+    result: '情報を探す操作と、現在地の把握を支える。',
+  },
+  {
+    title: '動きを減らす設定にも対応する。',
+    image: motionIllustration,
+    imageAlt: '動きの調整ダイヤルで、流れる軌跡を穏やかにする作り手',
+    description:
+      'ページ遷移、工程の切り替え、ボタンの反応にMotionを使用。OSの設定に合わせて演出を抑え、初期HTMLの本文は隠しません。閉じたメニューはinertとaria-hiddenで操作・読み上げの対象から外し、演出機能は遅延読み込みにしました。',
+    result: '動きの好みと、操作できる状態を一緒に考える。',
+  },
+  {
+    title: '挿絵は、配信するサイズまで整える。',
+    image: imagesIllustration,
+    imageAlt: '風景の挿絵を軽やかな小さなフレームに整える作り手たち',
+    description:
+      '人とAIの共同開発を表す挿絵を用意し、配信にはWebPを使用。画像の表示寸法と代替テキストを指定しました。見た目を加えるだけでなく、読み込みと画像を見られない場合の伝わり方も考えています。',
+    result: 'テーマを伝える表現を、Webで扱いやすい形に。',
+  },
+]
+
 export const verification = [
   {
     title: '通常テスト',
-    value: '17件',
-    detail: 'API、認証、CORS、登録条件を検証。失敗・スキップ0件。',
+    value: '18件',
+    detail:
+      'API、認証、CORS、登録条件、デザイン設定の保存と復元を検証。失敗・スキップ0件。',
     command: 'npm test',
   },
   {
     title: 'React描画確認',
     value: '確認済み',
     detail:
-      'ホーム・ログイン・登録・マイページと、認証状態別の描画を確認。実ブラウザー操作の代替ではありません。',
+      '両デザイン、開発事例、認証状態別の描画、閉じたメニューの属性を確認。実ブラウザー操作の代替ではありません。',
     command: 'npm run test:render',
   },
   {
