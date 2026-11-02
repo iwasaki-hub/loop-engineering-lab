@@ -1,0 +1,516 @@
+/* フォレストの既存CSSは変更せず、サンライズだけを上書きする。 */
+.design-root {
+  min-height: 100vh;
+}
+.design-announcement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.design-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid #dce4d3;
+  border-radius: 99px;
+  padding: 9px 11px;
+  color: #61794d;
+  background: #f3f7ee;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.design-toggle:hover {
+  border-color: #99b77d;
+  background: #ebf2e2;
+}
+.design-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgb(0 0 0 / 10%);
+}
+.swatch-sunrise {
+  background: #ffad51;
+}
+.swatch-forest {
+  background: #6f9055;
+}
+
+.design-root[data-design='sunrise'] {
+  --ink: #332d40;
+  --muted: #6d626e;
+  --line: #e7ddcf;
+  color: var(--ink);
+  background: #fffbf4;
+  font-family:
+    'Trebuchet MS', 'Hiragino Maru Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+}
+.design-root[data-design='sunrise'] :is(h1, h2, h3) {
+  font-weight: 700;
+}
+.design-root[data-design='sunrise'] .eyebrow {
+  color: #8b6144;
+  font-weight: 600;
+}
+.design-root[data-design='sunrise'] :is(.eyebrow-line, .live-dot) {
+  background: #e18b36;
+}
+.design-root[data-design='sunrise'] .site-header {
+  background: rgb(255 251 244 / 96%);
+  border-color: #e9dfcf;
+}
+.design-root[data-design='sunrise'] .wordmark > svg {
+  color: #ee8a30;
+}
+.design-root[data-design='sunrise'] .wordmark strong {
+  color: #34334a;
+}
+.design-root[data-design='sunrise'] .wordmark-caption {
+  color: #75616a;
+}
+.design-root[data-design='sunrise'] .main-nav .nav-item {
+  color: #6a5e6c;
+}
+.design-root[data-design='sunrise'] .main-nav .nav-item.is-active {
+  color: #35439a;
+}
+.design-root[data-design='sunrise'] .nav-item.is-active::after {
+  background: #5666b4;
+}
+.design-root[data-design='sunrise'] :is(.button-dark, .auth-submit) {
+  background: #394aa5;
+  border-color: #394aa5;
+  color: #fff;
+  box-shadow: 0 4px 0 #283b8112;
+}
+.design-root[data-design='sunrise'] :is(.button-dark, .auth-submit):hover {
+  background: #293a8d;
+  border-color: #293a8d;
+}
+.design-root[data-design='sunrise'] .button {
+  border-radius: 99px;
+  font-weight: 600;
+  padding: 14px 24px;
+}
+.design-root[data-design='sunrise'] .button-light {
+  background: #f9dcb5;
+  color: #6a472d;
+}
+.design-root[data-design='sunrise'] .button-light:hover {
+  background: #f6c98e;
+}
+.design-root[data-design='sunrise']
+  :is(.small-button, .account-trigger, .design-toggle) {
+  background: #fff1dc;
+  border-color: #e9cda5;
+  color: #7b542e;
+  border-radius: 99px;
+}
+.design-root[data-design='sunrise']
+  :is(.small-button, .account-trigger, .design-toggle):hover {
+  background: #ffe3bc;
+}
+.design-root[data-design='sunrise'] .account-trigger.is-active {
+  background: #e8e9ff;
+  border-color: #bfc4ec;
+  color: #394698;
+}
+.design-root[data-design='sunrise'] .account-links {
+  border-color: #e8d7c0;
+  border-radius: 17px;
+  box-shadow: 0 12px 30px #5c3e1e16;
+}
+.design-root[data-design='sunrise'] .account-link.is-active {
+  color: #35439a;
+  background: #eeecff;
+}
+.design-root[data-design='sunrise'] .account-link:hover {
+  background: #fff1dc;
+  color: #6c4b2a;
+}
+.design-root[data-design='sunrise'] .account-links > p {
+  color: #7c6a65;
+}
+.design-root[data-design='sunrise'] .inline-link {
+  color: #46569d;
+  border-color: #c8c9e9;
+}
+.design-root[data-design='sunrise']
+  :is(a, button, summary, input):focus-visible {
+  outline-color: #5c69b4;
+}
+
+/* 色だけでなく、丸いフレーム・余白・カードの表情も切り替える。 */
+.design-root[data-design='sunrise'] .hero-with-illustration {
+  gap: 48px;
+  padding-block: 74px 65px;
+}
+.design-root[data-design='sunrise'] .home-hero h1 {
+  font-size: clamp(44px, 4.5vw, 67px);
+  line-height: 1.5;
+  color: #38314b;
+  letter-spacing: -2.8px;
+}
+.design-root[data-design='sunrise'] .home-hero h1 span {
+  color: #b95825;
+}
+.design-root[data-design='sunrise'] .hero-description {
+  color: #78616b;
+  font-size: 18px;
+}
+.design-root[data-design='sunrise'] .hero-footnote {
+  color: #8b736d;
+}
+.design-root[data-design='sunrise'] .hero-illustration {
+  position: relative;
+}
+.design-root[data-design='sunrise'] .hero-illustration::before {
+  content: '';
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #ffb445;
+  right: -16px;
+  top: 25px;
+  z-index: 1;
+  pointer-events: none;
+  box-shadow: 0 0 0 8px #fffbf4;
+}
+.design-root[data-design='sunrise'] .hero-illustration img {
+  border-radius: 70px 32px 75px 35px;
+  background: #fff0de;
+  border: 10px solid #ffe5c5;
+  mix-blend-mode: multiply;
+}
+.design-root[data-design='sunrise'] .hero-illustration figcaption {
+  color: #8b6b59;
+}
+.design-root[data-design='sunrise'] .illustration-eyebrow {
+  color: #986845;
+}
+.design-root[data-design='sunrise'] .showcase-container {
+  width: min(1280px, calc(100% - 64px));
+}
+.design-root[data-design='sunrise'] .preview-scene {
+  background: #ffe2b8;
+  background-image: none;
+  border-radius: 32px;
+  padding-block: 30px;
+}
+.design-root[data-design='sunrise'] .scene-orbit {
+  border-color: #da895b30;
+}
+.design-root[data-design='sunrise'] :is(.preview-topline, .scene-caption) {
+  color: #8c603e;
+}
+.design-root[data-design='sunrise'] .workspace {
+  border-radius: 16px;
+  border-color: #fff8ed;
+  box-shadow: 0 20px 60px #9e5d2826;
+}
+.design-root[data-design='sunrise']
+  :is(.workspace-titlebar, .workspace-sidebar) {
+  background: #fff7e9;
+  border-color: #e9dfcf;
+}
+.design-root[data-design='sunrise'] .workflow-tabs button.selected {
+  background: #ffdfa9;
+  color: #78502a;
+}
+.design-root[data-design='sunrise'] .workflow-tabs button:hover {
+  background: #fff0d5;
+}
+.design-root[data-design='sunrise'] .workspace-conversation {
+  background: #fffdf9;
+  border-color: #ece0d0;
+}
+.design-root[data-design='sunrise'] .user-prompt {
+  background: #ffe5d3;
+  color: #71504f;
+  border-radius: 17px 17px 3px 17px;
+}
+.design-root[data-design='sunrise'] .agent-avatar {
+  background: #e5e6ff;
+  color: #5c66a9;
+}
+.design-root[data-design='sunrise'] :is(.agent-name, .task-done) {
+  color: #6471a5;
+}
+.design-root[data-design='sunrise']
+  :is(
+    .agent-answer,
+    .panel-caption,
+    .workspace-project,
+    .sidebar-bottom,
+    .preview-input
+  ) {
+  color: #827182;
+}
+.design-root[data-design='sunrise'] .workspace-code {
+  background: #faf7ff;
+}
+.design-root[data-design='sunrise'] .file-tab {
+  background: #eeebfa;
+  border-color: #dfdaec;
+  color: #867397;
+}
+.design-root[data-design='sunrise'] .code-line:not(.blank-line) {
+  background: #f0edfc;
+}
+.design-root[data-design='sunrise'] .code-line code {
+  color: #77628b;
+}
+.design-root[data-design='sunrise'] :is(.workspace-bottom, .code-footer) {
+  color: #8e7e91;
+  border-color: #e6dcea;
+}
+.design-root[data-design='sunrise'] .stack-line > div {
+  color: #6f607e;
+}
+.design-root[data-design='sunrise'] :is(.stack-line > span, .stack-caption) {
+  color: #897a88;
+}
+.design-root[data-design='sunrise']
+  :is(
+    .approach-copy,
+    .approach-copy > p:first-child,
+    .guide-section .section-intro > p:not(.eyebrow)
+  ) {
+  color: #726171;
+}
+.design-root[data-design='sunrise'] .approach-copy strong {
+  color: #b05f31;
+}
+.design-root[data-design='sunrise'] .workflow-section {
+  background: #fff1d8;
+}
+.design-root[data-design='sunrise'] .workflow-card {
+  border-radius: 25px;
+  border: none;
+  padding: 30px;
+  box-shadow: 0 7px 0 #9b714707;
+}
+.design-root[data-design='sunrise'] .card-plan {
+  background: #fffaf0;
+}
+.design-root[data-design='sunrise'] .card-build {
+  background: #e8e8fc;
+}
+.design-root[data-design='sunrise'] .card-verify {
+  background: #ffe4d5;
+}
+.design-root[data-design='sunrise'] .card-top {
+  color: #9a7144;
+}
+.design-root[data-design='sunrise']
+  :is(
+    .card-description,
+    .card-label,
+    .card-top > span,
+    .section-heading > p,
+    .loop-caption
+  ) {
+  color: #7c6371;
+}
+.design-root[data-design='sunrise'] .mini-code {
+  background: #41446d;
+  border-color: #f1efff;
+}
+.design-root[data-design='sunrise'] .mini-code > span {
+  color: #e6d4ef;
+}
+.design-root[data-design='sunrise'] .guide-steps code {
+  color: #75558a;
+  background: #eee6f4;
+}
+.design-root[data-design='sunrise']
+  :is(.guide-steps p, .guide-steps > article > span, .server-status) {
+  color: #7f6d79;
+}
+.design-root[data-design='sunrise'] .faq-list details {
+  border: 1px solid #e8dfd2;
+  border-radius: 16px;
+  background: #fff;
+  margin-bottom: 12px;
+  padding-inline: 22px;
+}
+.design-root[data-design='sunrise'] .faq-list details p {
+  color: #796577;
+}
+.design-root[data-design='sunrise'] .faq-list summary > span {
+  color: #b47b40;
+}
+.design-root[data-design='sunrise'] .closing-section {
+  background: #e6e4fa;
+  padding-block: 85px;
+}
+.design-root[data-design='sunrise'] .closing-section > div > svg {
+  color: #dc9251;
+}
+.design-root[data-design='sunrise'] :is(.closing-section p, .closing-caption) {
+  color: #7d6d8b;
+}
+.design-root[data-design='sunrise'] .home-case-link {
+  border-radius: 20px;
+  padding: 30px;
+  background: #fff0e2;
+  border: none;
+}
+.design-root[data-design='sunrise'] .home-case-link p {
+  color: #8a6b65;
+}
+.design-root[data-design='sunrise'] .site-footer {
+  color: #756879;
+}
+.design-root[data-design='sunrise'] .site-footer p {
+  color: #857689;
+}
+
+/* 別ページへ移動しても、共通UIと主要パネルの雰囲気を統一する。 */
+.design-root[data-design='sunrise']
+  :is(.auth-story, .dashboard-next, .case-flow-section, .case-verification) {
+  background: #fff0d8;
+}
+.design-root[data-design='sunrise']
+  :is(
+    .auth-story,
+    .dashboard-next,
+    .profile-card,
+    .case-terminal,
+    .case-flow li > a,
+    .verification-grid article
+  ) {
+  border-radius: 24px;
+}
+.design-root[data-design='sunrise']
+  :is(.dashboard-heading h1 span, .dashboard-badge) {
+  color: #9d6236;
+}
+.design-root[data-design='sunrise'] .dashboard-badge {
+  background: #ffedcf;
+}
+.design-root[data-design='sunrise'] .auth-loop {
+  color: #c58245;
+}
+.design-root[data-design='sunrise'] .auth-error {
+  border-radius: 10px;
+}
+.design-root[data-design='sunrise'] .form-field input {
+  border-color: #e2d4c4;
+  border-radius: 12px;
+}
+.design-root[data-design='sunrise'] .auth-switch a {
+  color: #4656a0;
+}
+.design-root[data-design='sunrise'] .case-learning {
+  background: #f3edff;
+}
+.design-root[data-design='sunrise']
+  :is(
+    .case-study-page h1 > span,
+    .milestone-result,
+    .verification-grid strong
+  ) {
+  color: #9e623c;
+}
+
+@media (max-width: 1280px) {
+  .main-nav {
+    align-items: stretch;
+  }
+  .design-toggle {
+    justify-content: flex-start;
+    align-self: flex-start;
+    margin-top: 8px;
+  }
+}
+@media (min-width: 1001px) and (max-width: 1280px) {
+  .header-inner {
+    height: 72px;
+    gap: 16px;
+  }
+  .wordmark-caption {
+    display: none;
+  }
+  .header-action {
+    margin-left: auto;
+  }
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    order: 3;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    background: transparent;
+  }
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 22px 40px;
+    background: #fdfefb;
+    border-bottom: 1px solid var(--line);
+  }
+  .main-nav.is-open {
+    display: flex;
+    flex-direction: column;
+  }
+  .account-links {
+    position: static;
+    width: 100%;
+    margin-top: 8px;
+    box-shadow: none;
+  }
+}
+@media (max-width: 1280px) {
+  .design-root[data-design='sunrise'] .main-nav {
+    background: #fffbf4;
+  }
+  .design-root[data-design='sunrise'] .main-nav .nav-item.is-active {
+    background: #eeebff;
+    box-shadow: inset 3px 0 #6875be;
+  }
+}
+@media (max-width: 800px) {
+  .design-root[data-design='sunrise'] .hero-with-illustration {
+    padding-block: 45px 40px;
+    gap: 30px;
+  }
+  .design-root[data-design='sunrise'] .home-hero h1 {
+    font-size: clamp(44px, 7vw, 59px);
+  }
+  .design-root[data-design='sunrise'] .showcase-container {
+    width: calc(100% - 24px);
+  }
+  .design-root[data-design='sunrise'] .preview-scene {
+    border-radius: 22px;
+  }
+  .design-root[data-design='sunrise'] .workflow-card {
+    padding: 23px;
+  }
+  .design-root[data-design='sunrise'] .hero-illustration::before {
+    right: -5px;
+    top: 16px;
+    width: 45px;
+    height: 45px;
+    box-shadow: 0 0 0 5px #fffbf4;
+  }
+  .design-root[data-design='sunrise'] .hero-illustration img {
+    border-width: 7px;
+    border-radius: 45px 25px 50px 28px;
+  }
+  .design-root[data-design='sunrise'] .home-case-link {
+    padding: 25px;
+  }
+}

@@ -5,13 +5,17 @@ import { workflowSteps, questions } from './content'
 import humanAiWorkshop from '../../assets/illustrations/human-ai-workshop.webp'
 import { Link } from 'react-router-dom'
 import './home.css'
+import Reveal from '../../components/motion/Reveal'
 
 const repo = 'https://github.com/iwasaki-hub/loop-engineering-lab'
 
 export default function HomePage() {
   return (
     <>
-      <section className="home-hero hero-with-illustration container">
+      <Reveal
+        as="section"
+        className="home-hero hero-with-illustration container"
+      >
         <div className="hero-copy">
           <p className="eyebrow">
             <span className="eyebrow-line" /> BUILD WITH AI. LEARN BY DOING.
@@ -58,7 +62,7 @@ export default function HomePage() {
             </span>
           </figcaption>
         </figure>
-      </section>
+      </Reveal>
 
       <div className="showcase-container">
         <WorkflowPreview />
@@ -74,7 +78,8 @@ export default function HomePage() {
         <span className="stack-caption">このラボで使うツール</span>
       </div>
 
-      <section
+      <Reveal
+        as="section"
         id="approach"
         className="approach-section container section-space"
       >
@@ -103,9 +108,13 @@ export default function HomePage() {
             小さく試す、というはじめかた <Icon name="arrow" size={17} />
           </a>
         </div>
-      </section>
+      </Reveal>
 
-      <section id="workflow" className="workflow-section section-space">
+      <Reveal
+        as="section"
+        id="workflow"
+        className="workflow-section section-space"
+      >
         <div className="container">
           <div className="section-heading">
             <div>
@@ -123,8 +132,11 @@ export default function HomePage() {
             </p>
           </div>
           <div className="workflow-cards">
-            {workflowSteps.map((step) => (
-              <article
+            {workflowSteps.map((step, index) => (
+              <Reveal
+                as="article"
+                lift
+                delay={index * 0.06}
                 key={step.id}
                 className={`workflow-card card-${step.id}`}
               >
@@ -171,16 +183,20 @@ export default function HomePage() {
                 <p className="card-label">{step.label}</p>
                 <h3>{step.title}</h3>
                 <p className="card-description">{step.description}</p>
-              </article>
+              </Reveal>
             ))}
           </div>
           <div className="loop-caption">
             <Icon name="loop" size={16} /> 気づきを設計に戻して、次のループへ。
           </div>
         </div>
-      </section>
+      </Reveal>
 
-      <section id="guide" className="guide-section container section-space">
+      <Reveal
+        as="section"
+        id="guide"
+        className="guide-section container section-space"
+      >
         <div className="section-intro">
           <p className="eyebrow">YOUR FIRST LOOP</p>
           <h2>
@@ -231,9 +247,9 @@ export default function HomePage() {
           </article>
           <ServerStatus />
         </div>
-      </section>
+      </Reveal>
 
-      <section className="home-case-link container">
+      <Reveal as="section" className="home-case-link container">
         <div>
           <h2>このサイト自身が、ひとつの開発事例です。</h2>
           <p>
@@ -243,8 +259,8 @@ export default function HomePage() {
         <Link className="inline-link" to="/case-studies">
           開発事例を読む <Icon name="arrow" size={17} />
         </Link>
-      </section>
-      <section className="faq-section container section-space">
+      </Reveal>
+      <Reveal as="section" className="faq-section container section-space">
         <div>
           <p className="eyebrow">A FEW THINGS TO KNOW</p>
           <h2>気になること。</h2>
@@ -260,8 +276,8 @@ export default function HomePage() {
             </details>
           ))}
         </div>
-      </section>
-      <section className="closing-section">
+      </Reveal>
+      <Reveal as="section" className="closing-section">
         <div className="container">
           <Icon name="loop" size={38} />
           <h2>次は、何をつくろう。</h2>
@@ -275,7 +291,7 @@ export default function HomePage() {
           </a>
           <span className="closing-caption">KEEP BUILDING. KEEP LEARNING.</span>
         </div>
-      </section>
+      </Reveal>
     </>
   )
 }

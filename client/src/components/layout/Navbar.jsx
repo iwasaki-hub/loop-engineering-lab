@@ -1,8 +1,11 @@
 import { useEffect } from 'react'
+import { useAnimate } from 'motion/react-mini'
+import { useReducedMotion } from 'motion/react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import Icon from '../ui/Icon'
 import AccountDropdown from './AccountDropdown'
+import DesignToggle from './DesignToggle'
 import './navbar.css'
 
 const sections = [
@@ -14,6 +17,26 @@ const sections = [
 export default function Navbar({ menuOpen, onNavigate }) {
   const { status } = useAuth()
   const { pathname, hash } = useLocation()
+  const [scope, animate] = useAnimate()
+  const reduced = useReducedMotion()
+  useEffect(() => {
+    if (!menuOpen || reduced) return
+    const animation = animate(
+      scope.current,
+      {
+        opacity: [0.65, 1],
+        transform: ['translateY(-6px)', 'translateY(0px)'],
+      },
+      { duration: 0.18 },
+    )
+    return () => {
+      animation.stop()
+      if (scope.current) {
+        scope.current.style.opacity = '1'
+        scope.current.style.transform = 'none'
+      }
+    }
+  }, [menuOpen, reduced, scope, animate])
   useEffect(() => {
     if (pathname === '/' && hash)
       document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start' })
@@ -21,6 +44,7 @@ export default function Navbar({ menuOpen, onNavigate }) {
 
   return (
     <nav
+      ref={scope}
       id="main-nav"
       className={`main-nav ${menuOpen ? 'is-open' : ''}`}
       aria-label="メインナビゲーション"
@@ -62,6 +86,7 @@ export default function Navbar({ menuOpen, onNavigate }) {
           <Icon name="user" size={14} /> マイページ
         </NavLink>
       )}
+      <DesignToggle onNavigate={onNavigate} />
     </nav>
   )
 }

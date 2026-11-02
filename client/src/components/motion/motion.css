@@ -1,0 +1,45 @@
+.reading-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  height: 3px;
+  background: #789d5c;
+  transform-origin: left;
+  pointer-events: none;
+}
+[data-design='sunrise'] .reading-progress {
+  background: #df9147;
+}
+.page-transition {
+  min-width: 0;
+}
+#main-content:focus {
+  outline: none;
+}
+.workflow-tabs button {
+  position: relative;
+}
+.workspace-conversation,
+.workspace-code {
+  min-width: 0;
+}
+.conversation-content,
+.preview-code-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.motion-account-links {
+  overflow: hidden;
+  transform-origin: top right;
+}
+.motion-account-links[aria-hidden='true'] {
+  pointer-events: none;
+  margin-top: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reading-progress {
+    display: none;
+  }
+}

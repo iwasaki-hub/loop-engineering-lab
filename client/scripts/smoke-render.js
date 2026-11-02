@@ -14,7 +14,13 @@ try {
   const { AuthContext } = await vite.ssrLoadModule(
     '/src/context/AuthContext.js',
   )
-  function render(route, session) {
+  const { DesignProvider } = await vite.ssrLoadModule(
+    '/src/context/DesignProvider.jsx',
+  )
+  const { default: UiMotionProvider } = await vite.ssrLoadModule(
+    '/src/components/motion/UiMotionProvider.jsx',
+  )
+  function render(route, session, design = 'forest') {
     return renderToString(
       createElement(
         MemoryRouter,
@@ -22,12 +28,39 @@ try {
         createElement(
           AuthContext.Provider,
           { value: { ...session, refreshSession() {}, logout() {} } },
-          createElement(App),
+          createElement(
+            DesignProvider,
+            { initialDesign: design },
+            createElement(UiMotionProvider, null, createElement(App)),
+          ),
         ),
       ),
     )
   }
   const home = render('/', { user: null, status: 'anonymous' })
+  assert.ok(home.includes('class="reading-progress"'))
+  const collapsedAccount = home.match(
+    /<div id="account-links"[\s\S]*?<\/div>/,
+  )?.[0]
+  assert.ok(collapsedAccount?.includes('aria-hidden="true"'))
+  assert.ok(collapsedAccount?.includes('inert=""'))
+  assert.ok(home.includes('data-design="forest"'))
+  assert.ok(home.includes('フォレスト'))
+  const warmHome = render('/', { user: null, status: 'anonymous' }, 'sunrise')
+  assert.ok(warmHome.includes('data-design="sunrise"'))
+  assert.ok(warmHome.includes('サンライズ'))
+  assert.ok(warmHome.includes('動くものへ。'))
+  assert.ok(warmHome.includes('aria-pressed="true"'))
+  const warmDashboard = render(
+    '/dashboard',
+    {
+      user: { name: 'テーマ確認ユーザー', email: 'design@example.com' },
+      status: 'authenticated',
+    },
+    'sunrise',
+  )
+  assert.ok(warmDashboard.includes('data-design="sunrise"'))
+  assert.ok(warmDashboard.includes('テーマ確認ユーザー'))
   assert.ok(home.includes('aria-controls="account-links"'))
   assert.ok(home.includes('id="account-links"'))
   const currentLoginNav = render('/login', {

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import Icon from '../ui/Icon'
+import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 
 const links = [
   { to: '/login', label: 'ログイン', icon: 'login' },
@@ -14,6 +16,7 @@ export default function AccountDropdown({ onNavigate }) {
   const focusFirst = useRef(false)
   const { pathname } = useLocation()
   const current = links.find((link) => link.to === pathname)
+  const reduced = useReducedMotion()
 
   useEffect(() => {
     if (!open) return
@@ -52,7 +55,8 @@ export default function AccountDropdown({ onNavigate }) {
         if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false)
       }}
     >
-      <button
+      <m.button
+        whileTap={reduced ? undefined : { scale: 0.97 }}
         type="button"
         ref={trigger}
         className={`account-trigger ${current ? 'is-active' : ''}`}
@@ -82,8 +86,22 @@ export default function AccountDropdown({ onNavigate }) {
           size={10}
           className={open ? 'dropdown-chevron is-open' : 'dropdown-chevron'}
         />
-      </button>
-      <div id="account-links" className="account-links" hidden={!open}>
+      </m.button>
+      <m.div
+        id="account-links"
+        className="account-links motion-account-links"
+        initial={false}
+        animate={{
+          opacity: open ? 1 : 0,
+          height: open ? 'auto' : 0,
+          padding: open ? 8 : 0,
+          borderWidth: open ? 1 : 0,
+          y: reduced || open ? 0 : -5,
+        }}
+        transition={{ duration: reduced ? 0 : 0.18 }}
+        aria-hidden={!open}
+        inert={!open}
+      >
         <p>アカウント</p>
         {links.map((link) => (
           <NavLink
@@ -110,7 +128,7 @@ export default function AccountDropdown({ onNavigate }) {
             )}
           </NavLink>
         ))}
-      </div>
+      </m.div>
     </div>
   )
 }

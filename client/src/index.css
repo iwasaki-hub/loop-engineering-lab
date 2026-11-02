@@ -21,7 +21,7 @@ html {
 }
 body {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.85;
 }
 a {
@@ -83,7 +83,7 @@ summary:focus-visible {
   white-space: nowrap;
 }
 .wordmark strong {
-  font-size: 26px;
+  font-size: 28px;
   letter-spacing: -1px;
 }
 .wordmark strong span {
@@ -92,7 +92,7 @@ summary:focus-visible {
   margin-left: 4px;
 }
 .wordmark-caption {
-  font: 12px var(--mono);
+  font: 14px var(--mono);
   letter-spacing: -0.3px;
 }
 .wordmark > svg {
@@ -102,7 +102,7 @@ summary:focus-visible {
   display: flex;
   gap: 29px;
   margin-inline: auto;
-  font-size: 13px;
+  font-size: 15px;
 }
 .main-nav a:hover {
   color: #537c3c;
@@ -120,7 +120,7 @@ summary:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 13px;
-  font-size: 12px;
+  font-size: 14px;
   white-space: nowrap;
 }
 .small-button:hover {
@@ -131,7 +131,7 @@ summary:focus-visible {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 12px;
+  font-size: 14px;
 }
 .menu-toggle {
   display: none;
@@ -142,7 +142,7 @@ summary:focus-visible {
   text-align: center;
   color: #95412f;
   background: #fff2e9;
-  font-size: 13px;
+  font-size: 15px;
 }
 .skip-link {
   position: fixed;
@@ -164,7 +164,7 @@ summary:focus-visible {
   padding: 13px 23px;
   border: 1px solid transparent;
   border-radius: 99px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   transition:
     background 0.2s,
@@ -191,7 +191,7 @@ summary:focus-visible {
   align-items: center;
   gap: 9px;
   margin: 0 0 24px;
-  font: 10px var(--mono);
+  font: 12px var(--mono);
   letter-spacing: 2px;
   color: #707969;
 }
@@ -205,7 +205,7 @@ p {
   overflow-wrap: anywhere;
 }
 h2 {
-  font-size: clamp(30px, 3.4vw, 43px);
+  font-size: clamp(32px, 3.4vw, 45px);
   font-weight: 500;
   line-height: 1.6;
   letter-spacing: -1.8px;
@@ -218,7 +218,7 @@ p {
   display: inline-flex;
   align-items: center;
   gap: 20px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   border-bottom: 1px solid #c4cdbb;
   padding-bottom: 6px;
@@ -231,23 +231,23 @@ p {
   padding-block: 35px;
 }
 .site-footer .wordmark strong {
-  font-size: 23px;
+  font-size: 25px;
 }
 .site-footer p {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
 }
 .site-footer > a:last-of-type {
   margin-left: auto;
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: 14px;
 }
 .footer-note {
   width: 100%;
   color: #8c9586;
-  font: 10px var(--mono);
+  font: 12px var(--mono);
   margin-top: 4px;
 }
 .not-found {
@@ -255,7 +255,7 @@ p {
   min-height: 65vh;
 }
 .not-found h1 {
-  font-size: clamp(36px, 6vw, 70px);
+  font-size: clamp(38px, 6vw, 72px);
   line-height: 1.5;
   font-weight: 500;
   margin: 0 0 25px;
@@ -286,7 +286,7 @@ p {
     gap: 12px;
   }
   .wordmark strong {
-    font-size: 23px;
+    font-size: 25px;
   }
   .wordmark strong span {
     display: none;
@@ -296,7 +296,7 @@ p {
   }
   .small-button {
     padding: 7px 11px;
-    font-size: 11px;
+    font-size: 13px;
     gap: 7px;
   }
   .user-name {

@@ -7,7 +7,7 @@
   gap: 13px;
   align-items: center;
   color: #8c9784;
-  font-size: 12px;
+  font-size: 14px;
   margin-bottom: 45px;
 }
 .dashboard-breadcrumb a:hover {
@@ -21,7 +21,7 @@
   margin-bottom: 45px;
 }
 .dashboard-heading h1 {
-  font-size: clamp(30px, 4vw, 47px);
+  font-size: clamp(32px, 4vw, 49px);
   line-height: 1.65;
   font-weight: 500;
   letter-spacing: -1.5px;
@@ -33,7 +33,7 @@
 }
 .dashboard-heading > div > p:last-child {
   color: #7e8874;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 2;
 }
 .dashboard-badge {
@@ -44,7 +44,7 @@
   border-radius: 99px;
   background: #eaf2e2;
   color: #5b7e46;
-  font-size: 11px;
+  font-size: 13px;
   white-space: nowrap;
 }
 .dashboard-grid {
@@ -75,11 +75,11 @@
   color: #7b9565;
 }
 .profile-card .eyebrow {
-  font-size: 8px;
+  font-size: 10px;
   margin-bottom: 6px;
 }
 .profile-card h2 {
-  font-size: 23px;
+  font-size: 25px;
   letter-spacing: -0.5px;
 }
 .profile-card dl {
@@ -94,12 +94,12 @@
   align-items: center;
   gap: 8px;
   color: #8b9582;
-  font-size: 12px;
+  font-size: 14px;
   margin-bottom: 8px;
 }
 .profile-card dd {
   margin: 0;
-  font-size: 17px;
+  font-size: 19px;
   overflow-wrap: anywhere;
 }
 .profile-note {
@@ -109,7 +109,7 @@
   border-top: 1px solid var(--line);
   padding-top: 18px;
   color: #8a9680;
-  font-size: 10px;
+  font-size: 12px;
 }
 .dashboard-next {
   display: flex;
@@ -124,22 +124,22 @@
   margin-bottom: 24px;
 }
 .dashboard-next .eyebrow {
-  font-size: 9px;
+  font-size: 11px;
   margin-bottom: 14px;
 }
 .dashboard-next h2 {
-  font-size: 30px;
+  font-size: 32px;
   line-height: 1.6;
   margin-bottom: 18px;
 }
 .dashboard-next > p:not(.eyebrow) {
   color: #7f8c72;
-  font-size: 13px;
+  font-size: 15px;
   margin-bottom: 24px;
   line-height: 2;
 }
 .dashboard-next .inline-link {
-  font-size: 11px;
+  font-size: 13px;
   margin-top: 17px;
 }
 @media (max-width: 680px) {
@@ -154,10 +154,10 @@
     margin-bottom: 30px;
   }
   .dashboard-heading .eyebrow {
-    font-size: 9px;
+    font-size: 11px;
   }
   .dashboard-heading h1 {
-    font-size: 32px;
+    font-size: 34px;
   }
   .dashboard-grid {
     grid-template-columns: 1fr;
@@ -168,7 +168,7 @@
     padding: 25px;
   }
   .profile-card dd {
-    font-size: 16px;
+    font-size: 18px;
   }
   .profile-note {
     align-items: flex-start;

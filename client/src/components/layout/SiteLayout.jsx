@@ -1,4 +1,5 @@
-import { Outlet } from 'react-router-dom'
+import AnimatedOutlet from '../motion/AnimatedOutlet'
+import ReadingProgress from '../motion/ReadingProgress'
 import SiteHeader from './SiteHeader'
 import SiteFooter from './SiteFooter'
 export default function SiteLayout() {
@@ -8,8 +9,9 @@ export default function SiteLayout() {
         本文へスキップ
       </a>
       <SiteHeader />
-      <main id="main-content">
-        <Outlet />
+      <ReadingProgress />
+      <main id="main-content" tabIndex={-1}>
+        <AnimatedOutlet />
       </main>
       <SiteFooter />
     </>

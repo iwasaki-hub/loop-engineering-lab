@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import Icon from '../ui/Icon'
 import Navbar from './Navbar'
+import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 
 export default function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [logoutError, setLogoutError] = useState('')
   const [loggingOut, setLoggingOut] = useState(false)
   const { user, status, logout, refreshSession } = useAuth()
+  const reduced = useReducedMotion()
   useEffect(() => {
     if (!menuOpen) return
     function closeOnScroll() {
@@ -43,7 +46,8 @@ export default function SiteHeader() {
           </strong>
           <span className="wordmark-caption">engineering lab</span>
         </Link>
-        <button
+        <m.button
+          whileTap={reduced ? undefined : { scale: 0.92 }}
           className="menu-toggle"
           type="button"
           aria-label={menuOpen ? 'メニューを閉じる' : 'メニューを開く'}
@@ -52,7 +56,7 @@ export default function SiteHeader() {
           onClick={() => setMenuOpen(!menuOpen)}
         >
           <Icon name={menuOpen ? 'close' : 'menu'} />
-        </button>
+        </m.button>
         <Navbar menuOpen={menuOpen} onNavigate={() => setMenuOpen(false)} />
         <div className="header-action">
           {status === 'authenticated' && user ? (

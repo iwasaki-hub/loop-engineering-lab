@@ -34,7 +34,7 @@
   color: #748568;
   padding: 9px 12px;
   border-radius: 7px;
-  font-size: 12px;
+  font-size: 14px;
   white-space: nowrap;
 }
 .account-trigger:hover,
@@ -71,7 +71,7 @@
   display: none;
 }
 .account-links > p {
-  font-size: 10px;
+  font-size: 12px;
   color: #99a68d;
   padding: 4px 9px 8px;
 }
@@ -81,7 +81,7 @@
   align-items: center;
   border-radius: 5px;
   padding: 11px 10px;
-  font-size: 13px;
+  font-size: 15px;
   color: #78856d;
 }
 .main-nav .account-link:hover {
