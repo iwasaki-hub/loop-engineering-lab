@@ -1,0 +1,184 @@
+# ループ実行記録
+
+実装・検証の記録。今後の変更でも以下の形式で追記する。
+
+## 2026-11-02 初期ファイルの検証
+
+- 対象要件: R1〜R3の受け入れテスト準備。
+- `npm.cmd run check`: 成功（既存のsrc/server.jsの構文確認）。
+- `npm.cmd test`: 2件実行、成功0件、失敗2件、スキップ0件。
+- 失敗原因: `src/app.js` が未実装で、`MODULE_NOT_FOUND` が発生。
+- 次の対応: `prompts/implement.md` に従ってAPIを実装する。
+- API起動・応答の検証は未実施。
+
+## 2026-11-02 ヘルスチェックAPIの実装
+
+- 対象要件: R1〜R5。
+- 実装前の `npm.cmd test`: 2件失敗。原因は `src/app.js` 未実装による `MODULE_NOT_FOUND`。
+- 変更: `src/app.js` にExpressアプリとGET /healthを実装し、CommonJSでexport。
+- 変更: `src/server.js` でアプリを読み込み、ポート3000で待ち受け。
+- 変更: `package.json` のcheckコマンドを両実装ファイルの構文確認に拡張。
+- `npm.cmd run check`: 成功。
+- `npm.cmd test`: 2件成功、失敗0件、スキップ0件。R1・R2の200/JSONとR3の404を確認。
+- R4レビュー: app.jsにlistenはなく、読み込み時に待ち受けを開始しない。
+- R5レビュー: server.jsのみがlisten(3000)を実行する。
+- `npm.cmd start` 後、`Invoke-WebRequest -Uri 'http://localhost:3000/health' -UseBasicParsing` を実行。
+- 実応答: HTTP 200、Content-Typeはapplication/json; charset=utf-8、本文は `{"status":"ok"}`。
+- 起動したプロセスは確認後にCtrl+Cで終了。終了コード1は中断によるもの。
+- 実装後の追加修正: 0サイクル（最初の実装で検証成功）。仕様・テストの期待値の変更なし。
+- 残課題: 今回の設計範囲ではなし。
+
+## 2026-11-03 dotenv対応
+
+- 対象要件: R5のPORT対応、R6の環境変数読み込み（ユーザー依頼に基づく仕様更新）。
+- 変更: server.jsの先頭でdotenv.configを実行。PORT未指定時は3000。読み込みログは抑制。
+- `.env.example` にサンプル設定を追加。既存の `.env` は読み取り・変更していない。
+- 変更前後の `npm.cmd test`: ともに2件成功、失敗0件、スキップ0件。
+- `npm.cmd run check`: 成功。
+- `node -e` による一時ディレクトリの検証用.envを使ったスモーク確認: 成功。設定値がprocess.envとlistenの引数へ反映されることを確認。
+- スモーク確認ではlistenを差し替えて検証。実ポートの起動確認は今回は未実施。一時ファイルは削除済み。
+- 追加修正: 0サイクル。残課題なし。
+
+## 2026-11-03 JSONリクエスト対応
+
+- 対象要件: ユーザー依頼に基づきR7〜R9を追加。
+- 追加テスト実行: 既存2件成功、新規3件はエンドポイント未実装により404で失敗。
+- 変更: express.jsonで本文を読み込み、POST /echoでJSONを返す。不正JSONは400、非JSONは415、本文なしは400。
+- 初回実装の検証: 4件成功、本文なしのテスト1件失敗（期待400、実際200）。
+- 修正1サイクル: パーサーが空本文を空オブジェクトにするケースに対応し、verifyで本文の有無を判別。
+- `npm.cmd run check`: 成功。
+- `npm.cmd test`: HTTP経由の5件すべて成功、失敗・スキップ0件。
+- 依存追加なし。保存機能なし。テストの期待値変更なし。残課題なし。
+
+## 2026-11-03 フォルダー構成の方針
+
+- Express公式サイト、FAQ、Routingを確認。
+- `docs/architecture.md` に現在の役割と段階的な分割方針を記録。
+- AGENTS.mdから構成方針を参照するように変更。
+- ソースコードの変更・ファイル移動なし。ドキュメントのみの変更のためテストは再実行していない。
+
+## 2026-11-03 Mongoose接続
+
+- R10追加。接続処理をsrc/config/database.jsに分離し、MONGO_URIで接続成功後にHTTP起動。
+- 新規テスト3件の未実装による失敗を確認後、実装。
+- `npm.cmd run check` 成功、`npm.cmd test` 8件成功、失敗・スキップ0件。
+- `.env`をdotenvで読み込み、実際の接続とadmin ping成功。確認後disconnect。
+- `npm.cmd start`: DB接続成功後、設定ポートでのHTTP起動が失敗。使用中の既存プロセスは停止していない。
+- 修正1サイクル: listeningイベントでのみ起動成功ログを出すよう修正。
+- `$env:PORT='0'; npm.cmd start` で空きポートを使いDB接続・HTTP起動成功。GET /healthは200。確認用プロセスはCtrl+Cで終了。
+- 接続文字列・エラー詳細は出力していない。既存.envの変更なし。依存追加なし。
+- 起動時に設定ポートが使用中なら、既存サーバーの停止かPORT変更が必要。
+
+## 2026-11-03 Morgan導入
+
+- 対象要件: R11。インストール済みMorganをapp.jsのJSONパーサーより先に登録。
+- HTTPメソッド、パス、ステータス、応答時間を標準出力に記録。クエリ文字列・ヘッダー・本文は含めない。
+- 公式資料: https://expressjs.com/en/resources/middleware/morgan/
+- `npm.cmd run check`: 成功。
+- `npm.cmd test`: 8件成功、失敗・スキップ0件。200、404、400、415のアクセスログ出力を確認。
+- 依存追加・API応答変更なし。追加修正0サイクル。残課題なし。
+
+## 2026-11-03 ユーザー認証
+
+- ユーザーがメール＋パスワード、JWT HttpOnly Cookie方式を選択。docs/auth.mdにA1〜A11を記録。
+- 先に認証HTTPテストを追加し、repository未実装による失敗を確認。
+- routes/services/repositories/models/middleware/configへ責務を分離。
+- bcryptコスト12、email正規化・一意インデックス、JWT HS256・issuer/audience・期限の検証、tokenVersionによる全ログイン失効を実装。
+- 本番Secure Cookie、SameSite=Strict、POSTカスタムヘッダー、IP単位の制限、非公開エラーを実装。
+- `npm.cmd run check`: 全src/testの構文チェック成功。
+- `npm.cmd test`: 10件成功、失敗・スキップ0件。認証フロー、誤パスワード、重複、不正入力、改ざん・期限切れ・失効、Cookie属性、レート制限、内部エラー非公開、秘密鍵検証を確認。
+- `npm.cmd run test:integration`: 実MongoDBで登録・重複・ログイン・本人取得・ログアウト・失効確認に成功。専用ランダム名DBを削除し切断。
+- 起動時に秘密鍵を検証し、DB接続とUserインデックス作成後にHTTPを起動する。
+- MorganのパスをoriginalUrl（クエリ除外）に変更し、マウントした/authがログから抜けないようにした。
+- .env.exampleに必要に応じJWT_SECRETの空欄を追加。既存.envは変更せず、秘密値は出力していない。
+- 追加修正サイクル0。利用時は.envのJWT_SECRET設定が必要。メール確認・再設定・MFA・分散レート制限は対象外。
+
+## 2026-11-03 EJS APIホームページ
+
+- H1〜H4を追加。JSONPlaceholderの構成とExpress/EJSの公式ドキュメントを確認。
+- 先にホーム配信のテストを実行し、404による失敗を確認。
+- src/routes/home.js、src/views/home.ejs、src/public/home.css・home.jsを追加。
+- GET /でホーム、/assetsで公開アセットを配信。公開パスは絶対パスで設定。
+- ページにAPI一覧、認証ヘッダー・Cookieの説明、実際のGET /health・POST /echoデモ、URLコピーを実装。
+- `npm.cmd run check` 成功、`npm.cmd test` 11件成功・失敗/スキップ0件。
+- ローカル3123ポートでプレビューサーバーを起動。ブラウザー接続ホストが利用不可のため視覚確認・ブラウザー操作検証は未実施。HTML/EJS描画・アセット配信・既存APIはHTTPテストで確認済み。
+- 追加修正サイクル0。既存.env・認証APIの変更なし。プレビュー専用プロセスは終了。
+
+## 2026-11-03 古いフロントエンド参照の調査
+
+- 3000ポートの実HTMLはEJSホームページ。bundle.jsとlogo192.pngへの参照はプロジェクト・配信HTMLともになし。
+- ブラウザーの旧HTMLまたはService Workerのキャッシュが原因の可能性あり。ブラウザー内部の状態は未確認。
+- ホームHTMLにCache-Control: no-storeを追加。過去に保存されたService Workerのキャッシュ自体を削除する変更ではない。
+- テストにキャッシュ制御と旧Reactアセット参照なしの検証を追加。変更前のヘッダー不足による失敗を確認。
+- `npm.cmd run check`、`npm.cmd test`（11件）が成功。
+- 3000ポートの /、/assets/home.js、/assets/home.cssは200、Content-TypeはそれぞれHTML、JavaScript、CSSを確認。
+- 利用中サーバーは停止していない。変更反映には必要に応じサーバー再起動、その後ブラウザーの強制再読み込みが必要。継続時はlocalhost:3000のService Workerを確認。
+
+## 2026-11-03 Font Awesome導入
+
+- H5: Font Awesome Freeをローカル配信し、ホームのロゴ・矢印・コピー・送信・認証状態に適用。
+- 公式資料: https://docs.fontawesome.com/web/setup/packages 、 https://docs.fontawesome.com/web/setup/host-yourself/webfonts
+- `npm.cmd install @fortawesome/fontawesome-free` を実施（7.3.1）。通常環境のネットワーク制限により失敗後、承認された権限でプロジェクト内一時キャッシュを使って成功。
+- .tmpをGit対象から除外。依存関係とpackage-lock.jsonを更新。
+- 配信設定前のHTTPテストでFont Awesome CSSの404を確認してからcss/webfontsの公開を設定。
+- コピー操作はラベルだけを書き換え、アイコン要素を保持。装飾アイコンはaria-hidden=true。
+- `npm.cmd run check` 成功。`npm.cmd test` 11件成功、失敗・スキップ0件。
+- Font AwesomeのCSS2件・woff2が200、適切なContent-Typeで取得できることを確認。
+- ブラウザーでの視覚確認は未実施。API仕様の変更なし。
+
+## 2026-11-03 EJSヘッダー・フッターの分割
+
+- home.ejsのheader/footer要素をsrc/views/partials/header.ejs・footer.ejsに移動。
+- home.ejsはEJSのincludeで読み込む。表示内容・CSS・JavaScriptは変更なし。
+- `npm.cmd run check` 成功。`node --test test/home.test.js` 1件成功、失敗0件。EJS描画と静的アセット配信を確認。
+- `npm.cmd test` 全11件成功、失敗・スキップ0件。
+
+## 2026-11-03 ホームページの文字サイズ調整
+
+- src/public/home.cssの本文・ナビ・ボタン・コード・表・補足・フッターを基本2px拡大。モバイル向け指定も同じ幅で拡大。
+- 本文15→17px、コード12→14px、メイン見出しは42〜70pxに調整。
+- `npm.cmd run check` 成功、`npm.cmd test` 11件成功。ブラウザーでの視覚確認は未実施。
+
+## 2026-11-03 パスワード最小文字数の環境変数化
+
+- ユーザー依頼に基づきA2を更新。PASSWORD_MIN_LENGTHの未指定時は4、1〜72の整数を許可。不正設定は起動時に拒否。
+- .envと.env.exampleのPASSWORD_MIN_LENGTHを4に設定。他の環境変数の値は出力していない。
+- 共通のgetPasswordPolicyを登録チェック・エラー・EJS表示で参照。UTF-8上限72バイトは維持。
+- ログインでは最小文字数の引き上げを既存ユーザーへ強制しない。
+- 設定関数未実装によるテスト失敗を確認して実装。
+- 既存テストの短すぎる入力を5文字から3文字へ変更。仕様変更に対応するため。
+- `npm.cmd run check` 成功、`npm.cmd test` 12件成功。4文字境界、8文字への変更、画面の設定追従、不正設定、設定引き上げ後の既存ログインを確認。
+
+## 2026-11-03 User.name追加
+
+- Userモデルに任意のname（trim、最大100文字、既定値は空文字）を追加。
+- 登録APIでnameを検証・保存し、登録・ログイン・本人情報応答に含める。既存の名前なしユーザーは空文字で応答。
+- 先に認証テストを更新してname不足による失敗を確認後、実装。API項目追加に伴い期待する公開項目を更新。
+- 不正型、長さ上限、未指定、空白除去と既存ユーザー互換性をテスト。
+- `npm.cmd run check` 成功、`npm.cmd test` 13件成功。
+- `npm.cmd run test:integration` 成功。実MongoDBへの名前保存・取得を含む認証フローを確認し、専用テストDBは削除済み。
+
+## 2026-11-03 ホームのname説明を更新
+
+- API一覧・認証の導入文に任意の名前を反映し、name入りの登録JSON例を追加。
+- 名前の上限・空白除去・未設定時の挙動と、本人情報の公開項目を表示。
+- ログインにnameは不要と明記。登録例のパスワード長は現在の最小文字数設定に追従。
+- `npm.cmd run check` 成功、`npm.cmd test` 13件成功。
+
+## 2026-11-03 GitHubへの公開準備
+
+- ユーザーの依頼に基づきorigin/mainへのコミット・pushを準備。
+- .env.exampleの資格情報を公開用サンプルへ置換し、JWT_SECRETを空欄に変更。実際の.envは変更せずGit対象外。
+- node_modules・一時キャッシュもGit対象外であることを確認。
+- `npm.cmd run check` 成功、`npm.cmd test` 13件成功。
+- 公開対象ファイルを資格情報パターンと実環境の秘密値で検査し、該当なしを確認。
+
+## 記録テンプレート
+
+- 日時:
+- 対象要件:
+- 実行コマンド:
+- 結果（成功・失敗、テスト件数）:
+- 失敗原因:
+- 変更内容と理由:
+- 次の対応・残課題:

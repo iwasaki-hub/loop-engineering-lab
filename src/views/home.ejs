@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Loop Engineering LabのAPIガイド。JSONの送受信からユーザー認証まで、実際のリクエストで試せます。">
+  <title>Loop Engineering Lab — API playground</title>
+  <link rel="stylesheet" href="/assets/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets/fontawesome/css/solid.min.css">
+  <link rel="stylesheet" href="/assets/home.css">
+  <script src="/assets/home.js" defer></script>
+</head>
+<body>
+  <%- include('partials/header') %>
+  <main>
+    <section class="hero wrap">
+      <p class="eyebrow"><span class="dot"></span> YOUR LOCAL API PLAYGROUND</p>
+      <h1>小さく試す。<br>つくるループを、<span class="highlight">回そう。</span></h1>
+      <p class="intro">JSONを送る。レスポンスを見る。認証を試す。<br>ここは、設計から実装・テストへ進むためのAPI実験室です。</p>
+      <div class="hero-actions"><a class="button primary" href="#playground">最初のリクエストを送る <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a><a class="text-link" href="#endpoints">APIを見てみる <i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a></div>
+      <div class="base-url"><span>BASE URL</span><code id="base-url">このページと同じオリジン</code><button id="copy-url" type="button" aria-label="ベースURLをコピー"><i class="fa-solid fa-copy" aria-hidden="true"></i> <span id="copy-label">コピー</span></button><span id="copy-status" class="sr-only" role="status"></span></div>
+      <div class="facts"><div><strong>JSON in, JSON out.</strong><p>扱いやすいシンプルなレスポンス。</p></div><div><strong>Real authentication.</strong><p>MongoDBとCookieで、実際に認証。</p></div><div><strong>Learn by doing.</strong><p>試して、確かめて、次の一歩へ。</p></div></div>
+    </section>
+
+    <section id="playground" class="section wrap">
+      <div class="section-top"><div><p class="eyebrow">01 / PLAYGROUND</p><h2>まずは、ひとつ送ってみる。</h2></div><p>インストール不要。<br>このページからAPIへリクエストできます。</p></div>
+      <div class="playground">
+        <div class="request-pane">
+          <div class="tabs" role="group" aria-label="リクエストの種類"><button type="button" class="tab active" data-example="health" aria-pressed="true">GET <span>/health</span></button><button type="button" class="tab" data-example="echo" aria-pressed="false">POST <span>/echo</span></button></div>
+          <div class="code-label">REQUEST <span>JavaScript / Fetch</span></div>
+          <pre><code id="request-code">fetch('/health')
+  .then(response =&gt; response.json())
+  .then(data =&gt; console.log(data));</code></pre>
+          <div id="payload-group" hidden><label for="payload">送信するJSON</label><textarea id="payload" rows="5" spellcheck="false">{
+  "message": "Hello, Loop!",
+  "ready": true
+}</textarea><p class="input-hint">オブジェクトまたは配列を送信できます。データは保存されません。</p></div>
+          <div class="run-bar"><button type="button" class="button primary" id="run-request">リクエストを実行 <i class="fa-solid fa-paper-plane" aria-hidden="true"></i></button><span>同じサーバーに送信します</span></div>
+        </div>
+        <div class="response-pane"><div class="code-label">RESPONSE <span id="response-status">まだ実行していません</span></div><pre id="response-output" aria-live="polite" aria-atomic="true">// 実行すると、実際のレスポンスが
+// ここに表示されます。</pre><div class="response-note"><span class="dot"></span> サンプルではなく、実際のAPIレスポンス。</div></div>
+      </div>
+      <noscript><p>実行デモにはJavaScriptが必要です。<a href="/health">/healthを直接開く</a>こともできます。</p></noscript>
+    </section>
+
+    <section id="endpoints" class="section wrap">
+      <div class="section-top"><div><p class="eyebrow">02 / ENDPOINTS</p><h2>できること、一覧。</h2></div><p>6つのエンドポイントで、<br>基本の通信から認証まで。</p></div>
+      <div class="table-scroll"><table><thead><tr><th scope="col">METHOD</th><th scope="col">ENDPOINT</th><th scope="col">DESCRIPTION</th><th scope="col">ACCESS</th></tr></thead><tbody>
+      <% endpoints.forEach(endpoint => { %>
+        <tr><td><span class="method <%= endpoint.method.toLowerCase() %>"><%= endpoint.method %></span></td><td><code><%= endpoint.path %></code></td><td><%= endpoint.description %></td><td><span class="access"><i class="fa-solid <%= endpoint.auth ? 'fa-lock' : 'fa-globe' %>" aria-hidden="true"></i> <%= endpoint.auth ? '認証が必要' : '公開' %></span></td></tr>
+      <% }); %>
+      </tbody></table></div>
+      <p class="table-note">POSTは <code>Content-Type: application/json</code> で送信してください。認証APIには下記の追加ヘッダーが必要です。</p>
+    </section>
+
+    <section id="authentication" class="section wrap auth-section">
+      <div><p class="eyebrow">03 / AUTHENTICATION</p><h2>認証も、<br>一歩ずつ。</h2><p class="auth-intro">メールアドレスとパスワードで登録。<br>名前（name）も任意で設定できます。<br>ログイン後はHttpOnly Cookieで認証します。</p><p class="small">パスワードは<%= passwordPolicy.minLength %>文字以上・UTF-8で<%= passwordPolicy.maxBytes %>バイト以下。<br>認証は1時間有効。ログアウトですべてのログインが失効します。</p></div>
+      <div class="auth-guide"><ol><li><span class="step">1</span><div><strong>登録する</strong><code>POST /auth/register</code><p>JSONで <code>email</code> と <code>password</code>、任意で <code>name</code>（最大100文字）を送信します。</p></div></li><li><span class="step">2</span><div><strong>ログインする</strong><code>POST /auth/login</code><p><code>email</code> と <code>password</code> でログイン。名前の入力は不要です。Cookieを保存してください。</p></div></li><li><span class="step">3</span><div><strong>本人情報を確認する</strong><code>GET /auth/me</code><p>保存したCookieを付けてリクエストします。<code>id</code>・<code>name</code>・<code>email</code> が返ります。名前未設定の場合は空文字です。</p></div></li></ol><div class="header-tip"><strong>登録リクエストの例</strong><pre><code><%= JSON.stringify({ name: "山田太郎", email: "taro@example.com", password: "example-password".padEnd(passwordPolicy.minLength, "x") }, null, 2) %></code></pre><p>nameは任意・最大100文字。前後の空白は除去されます。</p></div><aside class="header-tip"><strong>Postmanで送るときも忘れずに。</strong><code>X-Requested-With: XMLHttpRequest</code><p>認証APIのPOSTは、このヘッダーが必要です。ログアウトの本文には <code>{}</code> を指定します。</p></aside></div>
+    </section>
+    <section class="closing wrap"><span class="brand-icon" aria-hidden="true"><i class="fa-solid fa-arrows-rotate"></i></span><div><h2>試したら、次のループへ。</h2><p>設計 → 実装 → テスト → 改善。一歩ずつ積み重ねよう。</p></div><a class="text-link" href="#playground">もう一度試す <i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a></section>
+  </main>
+  <%- include('partials/footer') %>
+</body>
+</html>

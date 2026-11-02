@@ -1,0 +1,40 @@
+{
+  "name": "loop-engineering-lab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "node --test",
+    "test:integration": "node scripts/smoke-auth.js",
+    "check": "node scripts/check.js",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iwasaki-hub/loop-engineering-lab.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/iwasaki-hub/loop-engineering-lab/issues"
+  },
+  "homepage": "https://github.com/iwasaki-hub/loop-engineering-lab#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.3.1",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.9",
+    "ejs": "^7.0.2",
+    "express": "^5.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.11.4",
+    "morgan": "^1.12.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
