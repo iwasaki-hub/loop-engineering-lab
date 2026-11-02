@@ -1028,3 +1028,134 @@
     font-size: 13px;
   }
 }
+
+/* AIと人の協働を伝えるヒーローイラスト */
+.hero-with-illustration {
+  display: grid;
+  grid-template-columns: 0.95fr 1.2fr;
+  align-items: center;
+  gap: 38px;
+  text-align: left;
+  padding-top: 60px;
+  padding-bottom: 58px;
+}
+.hero-with-illustration .eyebrow {
+  justify-content: flex-start;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+}
+.hero-with-illustration h1 {
+  font-size: clamp(40px, 4.4vw, 62px);
+  line-height: 1.55;
+  letter-spacing: -2.5px;
+}
+.hero-with-illustration .hero-buttons {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.hero-with-illustration .hero-buttons .button {
+  padding: 12px 19px;
+  gap: 14px;
+  font-size: 13px;
+}
+.hero-illustration {
+  min-width: 0;
+  margin: 0;
+}
+.illustration-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #859175;
+  font: 8px var(--mono);
+  letter-spacing: 1.1px;
+  padding-left: 15px;
+  margin-bottom: 12px;
+}
+.hero-illustration img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  border-radius: 16px;
+}
+.hero-illustration figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 15px;
+  padding-inline: 15px;
+  color: #8c987e;
+  font-size: 10px;
+}
+.hero-illustration figcaption > span:last-child {
+  font: 8px var(--mono);
+  letter-spacing: 0.8px;
+  display: inline-flex;
+  gap: 9px;
+  align-items: center;
+}
+@media (max-width: 1000px) {
+  .hero-with-illustration {
+    gap: 24px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .hero-with-illustration h1 {
+    font-size: 45px;
+  }
+  .hero-with-illustration .hero-description {
+    font-size: 13px;
+  }
+  .hero-with-illustration .hero-buttons .button {
+    font-size: 11px;
+    padding: 11px 14px;
+    gap: 9px;
+  }
+}
+@media (max-width: 800px) {
+  .hero-with-illustration {
+    grid-template-columns: 1fr;
+    padding-top: 50px;
+    padding-bottom: 38px;
+    gap: 32px;
+    text-align: center;
+  }
+  .hero-with-illustration .eyebrow {
+    justify-content: center;
+  }
+  .hero-with-illustration .hero-buttons {
+    justify-content: center;
+  }
+  .hero-illustration {
+    max-width: 600px;
+    width: 100%;
+    margin-inline: auto;
+  }
+  .hero-with-illustration h1 {
+    font-size: clamp(42px, 7vw, 57px);
+  }
+  .hero-with-illustration .hero-buttons .button {
+    font-size: 12px;
+    padding: 12px 17px;
+  }
+}
+@media (max-width: 450px) {
+  .hero-with-illustration {
+    padding-top: 38px;
+    gap: 25px;
+  }
+  .hero-with-illustration .eyebrow {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+  .hero-illustration figcaption {
+    padding-inline: 0;
+    font-size: 9px;
+  }
+  .hero-illustration figcaption > span:last-child {
+    font-size: 7px;
+    gap: 5px;
+  }
+}

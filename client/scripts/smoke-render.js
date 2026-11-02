@@ -28,6 +28,88 @@ try {
     )
   }
   const home = render('/', { user: null, status: 'anonymous' })
+  assert.ok(home.includes('aria-controls="account-links"'))
+  assert.ok(home.includes('id="account-links"'))
+  const currentLoginNav = render('/login', {
+    user: null,
+    status: 'anonymous',
+  }).match(/<nav id="main-nav"[\s\S]*?<\/nav>/)?.[0]
+  assert.match(
+    currentLoginNav,
+    /aria-current="page"[^>]*href="\/login"|href="\/login"[^>]*aria-current="page"/,
+  )
+  assert.equal((currentLoginNav.match(/aria-current=/g) || []).length, 1)
+  const currentSignupNav = render('/signup', {
+    user: null,
+    status: 'anonymous',
+  }).match(/<nav id="main-nav"[\s\S]*?<\/nav>/)?.[0]
+  assert.match(
+    currentSignupNav,
+    /aria-current="page"[^>]*href="\/signup"|href="\/signup"[^>]*aria-current="page"/,
+  )
+  const currentHashNav = render('/#workflow', {
+    user: null,
+    status: 'anonymous',
+  }).match(/<nav id="main-nav"[\s\S]*?<\/nav>/)?.[0]
+  assert.match(
+    currentHashNav,
+    /aria-current="location"[^>]*href="\/#workflow"|href="\/#workflow"[^>]*aria-current="location"/,
+  )
+  assert.ok(home.includes('href="/case-studies"'))
+  const caseStudy = render('/case-studies', { user: null, status: 'anonymous' })
+  for (const content of [
+    '開発事例',
+    '設計書',
+    '失敗を確認',
+    '空のJSON本文',
+    'ブラウザー',
+    '17件',
+  ]) {
+    assert.ok(caseStudy.includes(content), content)
+  }
+  assert.ok(!caseStudy.includes('ログインが必要です'))
+  assert.ok(
+    home.includes('human-ai-workshop.webp'),
+    'The home illustration is loaded locally',
+  )
+  assert.ok(
+    home.includes('人とAIのパートナーが、設計図やコードのパネル'),
+    'The illustration has descriptive alternative text',
+  )
+  const dashboardUser = {
+    name: 'マイページ利用者',
+    email: 'dashboard@example.com',
+  }
+  const dashboard = render('/dashboard', {
+    user: dashboardUser,
+    status: 'authenticated',
+  })
+  assert.ok(dashboard.includes('アカウント情報'))
+  assert.ok(dashboard.includes(dashboardUser.name))
+  assert.ok(dashboard.includes(dashboardUser.email))
+  assert.ok(dashboard.includes('href="/dashboard"'))
+  const anonymousDashboard = render('/dashboard', {
+    user: null,
+    status: 'anonymous',
+  })
+  assert.ok(anonymousDashboard.includes('ログインが必要です'))
+  assert.ok(anonymousDashboard.includes('href="/login"'))
+  assert.ok(!anonymousDashboard.includes('アカウント情報'))
+  const loadingDashboard = render('/dashboard', {
+    user: null,
+    status: 'loading',
+  })
+  assert.ok(loadingDashboard.includes('ログイン状態を確認しています'))
+  assert.ok(!loadingDashboard.includes('ログインが必要です'))
+  const errorDashboard = render('/dashboard', { user: null, status: 'error' })
+  assert.ok(errorDashboard.includes('ログイン状態を確認できませんでした'))
+  assert.ok(!errorDashboard.includes('ログインが必要です'))
+  assert.ok(
+    render('/dashboard', {
+      user: { name: '', email: 'unnamed@example.com' },
+      status: 'authenticated',
+    }).includes('名前は未設定です'),
+  )
   assert.ok(
     home.includes('data-icon="arrows-rotate"'),
     'Font Awesome icons are rendered',

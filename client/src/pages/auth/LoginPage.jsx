@@ -38,7 +38,7 @@ export default function LoginPage() {
     setError('')
     try {
       await login({ email: email.trim(), password })
-      if (active.current) navigate('/', { replace: true })
+      if (active.current) navigate('/dashboard', { replace: true })
     } catch (failure) {
       if (active.current) setError(getLoginErrorMessage(failure))
     } finally {
@@ -47,7 +47,7 @@ export default function LoginPage() {
     }
   }
 
-  if (status === 'authenticated') return <Navigate to="/" replace />
+  if (status === 'authenticated') return <Navigate to="/dashboard" replace />
 
   return (
     <section className="auth-page container">

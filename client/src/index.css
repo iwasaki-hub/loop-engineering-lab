@@ -356,3 +356,38 @@ p {
     transition: none !important;
   }
 }
+
+/* ナビ項目の増加に合わせ、中型画面でも折りたたむ */
+@media (min-width: 681px) and (max-width: 1000px) {
+  .header-inner {
+    height: 72px;
+  }
+  .header-action {
+    margin-left: auto;
+  }
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    order: 3;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    background: transparent;
+  }
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 22px 40px;
+    background: #fdfefb;
+    border-bottom: 1px solid var(--line);
+  }
+  .main-nav.is-open {
+    display: flex;
+    flex-direction: column;
+  }
+}

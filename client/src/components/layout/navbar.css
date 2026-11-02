@@ -1,0 +1,132 @@
+.main-nav {
+  align-items: center;
+  gap: 20px;
+}
+.main-nav .nav-item {
+  position: relative;
+  white-space: nowrap;
+  padding: 8px 0;
+  color: #737e69;
+}
+.main-nav .nav-item.is-active {
+  color: #365f2d;
+  font-weight: 600;
+}
+.nav-item.is-active::after {
+  content: '';
+  position: absolute;
+  height: 2px;
+  background: #6b9050;
+  border-radius: 2px;
+  left: 0;
+  right: 0;
+  bottom: 1px;
+}
+.account-dropdown {
+  position: relative;
+}
+.account-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #dde5d6;
+  background: #f7f9f3;
+  color: #748568;
+  padding: 9px 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.account-trigger:hover,
+.account-trigger[aria-expanded='true'] {
+  background: #edf3e5;
+  border-color: #becfaf;
+}
+.account-trigger.is-active {
+  color: #3f6a30;
+  background: #eaf3df;
+  border-color: #b7cda4;
+  font-weight: 600;
+}
+.dropdown-chevron {
+  transition: transform 0.15s;
+  margin-left: 3px;
+}
+.dropdown-chevron.is-open {
+  transform: rotate(180deg);
+}
+.account-links {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 205px;
+  border: 1px solid #e0e7d8;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 12px 32px #2b3d2017;
+  padding: 8px;
+}
+.account-links[hidden] {
+  display: none;
+}
+.account-links > p {
+  font-size: 10px;
+  color: #99a68d;
+  padding: 4px 9px 8px;
+}
+.main-nav .account-link {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border-radius: 5px;
+  padding: 11px 10px;
+  font-size: 13px;
+  color: #78856d;
+}
+.main-nav .account-link:hover {
+  background: #f1f5eb;
+  color: #466c35;
+}
+.main-nav .account-link.is-active {
+  background: #eaf3df;
+  color: #3e6a2b;
+  font-weight: 600;
+}
+.account-current-check {
+  margin-left: auto;
+}
+@media (max-width: 1000px) {
+  .main-nav {
+    align-items: stretch;
+  }
+  .main-nav .nav-item {
+    padding: 10px 12px;
+    border-radius: 5px;
+  }
+  .nav-item.is-active::after {
+    display: none;
+  }
+  .main-nav .nav-item.is-active {
+    background: #eaf3df;
+    box-shadow: inset 3px 0 #6b9050;
+  }
+  .account-dropdown {
+    border-top: 1px solid #e3eadc;
+    padding-top: 15px;
+  }
+  .account-trigger {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .account-trigger .dropdown-chevron {
+    margin-left: auto;
+  }
+  .account-links {
+    position: static;
+    width: 100%;
+    margin-top: 8px;
+    box-shadow: none;
+    background: #fafcf7;
+  }
+}

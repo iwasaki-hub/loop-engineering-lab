@@ -17,6 +17,7 @@ import {
   faLock,
   faEye,
   faEyeSlash,
+  faChevronDown,
 } from '@fortawesome/free-solid-svg-icons'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import './Icon.css'
@@ -41,6 +42,7 @@ const icons = {
   lock: faLock,
   eye: faEye,
   eyeOff: faEyeSlash,
+  chevronDown: faChevronDown,
 }
 
 export default function Icon({ name = 'arrow', size = 20, className = '' }) {

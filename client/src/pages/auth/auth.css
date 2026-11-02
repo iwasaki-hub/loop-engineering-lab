@@ -1,11 +1,3 @@
-.nav-login {
-  font-weight: 600;
-}
-.main-nav .nav-login.is-active {
-  color: #3e743e;
-  text-decoration: underline;
-  text-underline-offset: 7px;
-}
 .auth-page {
   display: grid;
   grid-template-columns: 1fr 1fr;

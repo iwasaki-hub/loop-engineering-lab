@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import Icon from '../ui/Icon'
@@ -9,6 +9,15 @@ export default function SiteHeader() {
   const [logoutError, setLogoutError] = useState('')
   const [loggingOut, setLoggingOut] = useState(false)
   const { user, status, logout, refreshSession } = useAuth()
+  useEffect(() => {
+    if (!menuOpen) return
+    function closeOnScroll() {
+      setMenuOpen(false)
+    }
+    window.addEventListener('scroll', closeOnScroll, { passive: true })
+    return () => window.removeEventListener('scroll', closeOnScroll)
+  }, [menuOpen])
+
   async function handleLogout() {
     setLoggingOut(true)
     setLogoutError('')
@@ -48,7 +57,9 @@ export default function SiteHeader() {
         <div className="header-action">
           {status === 'authenticated' && user ? (
             <>
-              <span className="user-name">{user.name || user.email}</span>
+              <Link className="user-name" to="/dashboard">
+                {user.name || user.email}
+              </Link>
               <button
                 className="small-button"
                 onClick={handleLogout}

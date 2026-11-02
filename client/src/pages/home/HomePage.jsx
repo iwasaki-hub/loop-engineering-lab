@@ -2,6 +2,8 @@ import Icon from '../../components/ui/Icon'
 import WorkflowPreview from './WorkflowPreview'
 import ServerStatus from './ServerStatus'
 import { workflowSteps, questions } from './content'
+import humanAiWorkshop from '../../assets/illustrations/human-ai-workshop.webp'
+import { Link } from 'react-router-dom'
 import './home.css'
 
 const repo = 'https://github.com/iwasaki-hub/loop-engineering-lab'
@@ -9,31 +11,53 @@ const repo = 'https://github.com/iwasaki-hub/loop-engineering-lab'
 export default function HomePage() {
   return (
     <>
-      <section className="home-hero container">
-        <p className="eyebrow">
-          <span className="eyebrow-line" /> BUILD WITH AI. LEARN BY DOING.
-        </p>
-        <h1>
-          アイデアを、
-          <br className="mobile-break" />
-          <span>動くものへ。</span>
-        </h1>
-        <p className="hero-description">
-          AIを、あなたの開発パートナーに。
-          <br />
-          設計から実装、テスト、改善まで。
-          <br className="mobile-break" />
-          つくる楽しさを、もっと先へ。
-        </p>
-        <div className="hero-buttons">
-          <a className="button button-dark" href="#guide">
-            AIと開発をはじめる <Icon name="diagonal" size={17} />
-          </a>
-          <a className="button button-light" href="#workflow">
-            開発の流れを見る <Icon name="arrow" size={17} />
-          </a>
+      <section className="home-hero hero-with-illustration container">
+        <div className="hero-copy">
+          <p className="eyebrow">
+            <span className="eyebrow-line" /> BUILD WITH AI. LEARN BY DOING.
+          </p>
+          <h1>
+            アイデアを、
+            <br />
+            <span>動くものへ。</span>
+          </h1>
+          <p className="hero-description">
+            AIを、あなたの開発パートナーに。
+            <br />
+            設計から実装、テスト、改善まで。
+            <br className="mobile-break" />
+            つくる楽しさを、もっと先へ。
+          </p>
+          <div className="hero-buttons">
+            <a className="button button-dark" href="#guide">
+              AIと開発をはじめる <Icon name="diagonal" size={17} />
+            </a>
+            <a className="button button-light" href="#workflow">
+              開発の流れを見る <Icon name="arrow" size={17} />
+            </a>
+          </div>
+          <p className="hero-footnote">ひとつのアイデアから、何度でも。</p>
         </div>
-        <p className="hero-footnote">ひとつのアイデアから、何度でも。</p>
+        <figure className="hero-illustration">
+          <span className="illustration-eyebrow">
+            <span className="live-dot" /> HUMAN + AI, BETTER TOGETHER
+          </span>
+          <img
+            src={humanAiWorkshop}
+            width="1200"
+            height="800"
+            alt="人とAIのパートナーが、設計図やコードのパネルを使って緑の小さな街を一緒に組み立てる挿絵"
+            fetchPriority="high"
+            decoding="async"
+          />
+          <figcaption>
+            <span>ひらめきを、一緒に育てよう。</span>
+            <span>
+              IDEA <span aria-hidden="true">→</span> BUILD{' '}
+              <span aria-hidden="true">→</span> LEARN
+            </span>
+          </figcaption>
+        </figure>
       </section>
 
       <div className="showcase-container">
@@ -209,6 +233,17 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="home-case-link container">
+        <div>
+          <h2>このサイト自身が、ひとつの開発事例です。</h2>
+          <p>
+            最小のAPIから、認証とReactの画面ができるまで。その工程と気づきを紹介します。
+          </p>
+        </div>
+        <Link className="inline-link" to="/case-studies">
+          開発事例を読む <Icon name="arrow" size={17} />
+        </Link>
+      </section>
       <section className="faq-section container section-space">
         <div>
           <p className="eyebrow">A FEW THINGS TO KNOW</p>
